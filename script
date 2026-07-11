@@ -14,10 +14,29 @@ local Tab = Window:Tab({
 
 -- Toggle
 Tab:Toggle({
-    Title = "Enable Feature",
+    Title = "Evidence ESP",
     Value = false,
-    Callback = function(state)
-        print("Feature enabled:", state)
+    Callback = function(value)
+        if value then
+            local function addhighlight(Evidence)
+                if not Evidence:FindFirstChildOfClass("Highlight") then
+                    local highlight = Instance.new("Highlight")
+                    highlight.Parent = Evidence
+                end
+            end
+
+            for _, Evidence in ipairs(game.Workspace:GetDescendants()) do
+                if Evidence.Name == "GhostOrb" or Evidence.Parent == "Handprints" then
+                    addhighlight(Evidence)
+                end
+            end
+        else
+            for _, Evidence in ipairs(game.Workspace:GetDescendants()) do
+                if Evidence:FindFirstChildOfClass("Highlight") then
+                    Evidence:FindFirstChildOfClass("Highlight"):Destroy()
+                end
+            end
+        end
     end,
 })
 
@@ -66,3 +85,24 @@ WindUI:Notify({
     Icon = "solar:bell-bold",
     Duration = 5,
 })
+
+WindUI:AddTheme({
+    Name       = "Ocean",
+
+    Accent     = Color3.fromHex("#0c3547"),
+    Dialog     = Color3.fromHex("#071e2b"),
+    Outline    = Color3.fromHex("#38bdf8"),
+    Text       = Color3.fromHex("#e0f2fe"),
+    Placeholder = Color3.fromHex("#4ea8c9"),
+    Background = Color3.fromHex("#040f18"),
+    Button     = Color3.fromHex("#0369a1"),
+    Icon       = Color3.fromHex("#38bdf8"),
+    Toggle     = Color3.fromHex("#0ea5e9"),
+    Slider     = Color3.fromHex("#0ea5e9"),
+    Checkbox   = Color3.fromHex("#0ea5e9"),
+
+    PanelBackground            = Color3.fromHex("#FFFFFF"),
+    PanelBackgroundTransparency = 0.95,
+})
+
+WindUI:SetTheme("Ocean")
