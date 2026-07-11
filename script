@@ -59,3 +59,10 @@ Tab:Dropdown({
         print("Team selected:", selectedValue)
     end,
 })
+
+WindUI:Notify({
+    Title = "iaubeiaubfe",
+    Content = "bruh",
+    Icon = "solar:bell-bold",
+    Duration = 5,
+})
