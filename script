@@ -19,9 +19,13 @@ Tab:Toggle({
     Callback = function(value)
         if value then
             local function addhighlight(Evidence)
-                if not Evidence:FindFirstChildOfClass("Highlight") then
+                if not Evidence:FindFirstChildOfClass("Highlight") and not Evidence:FindFirstChildOfClass("Humanoid") then
+                    local hHum = Instance.new("Humanoid")
                     local highlight = Instance.new("Highlight")
                     highlight.Parent = Evidence
+                    hHum.Parent = Evidence
+                    Evidence.Transparency = 0.99
+                    print("dada")
                 end
             end
 
@@ -32,50 +36,14 @@ Tab:Toggle({
             end
         else
             for _, Evidence in ipairs(game.Workspace:GetDescendants()) do
-                if Evidence:FindFirstChildOfClass("Highlight") then
+                if Evidence:FindFirstChildOfClass("Highlight") and Evidence:FindFirstChildOfClass("Humanoid") and Evidence.Name == "GhostOrb" or Evidence.Parent == "Handprints" then
                     Evidence:FindFirstChildOfClass("Highlight"):Destroy()
+                    Evidence:FindFirstChildOfClass("Humanoid"):Destroy()
+                    Evidence.Transparency = 1
+                    print("jewjej")
                 end
             end
         end
-    end,
-})
-
-Tab:Space()
-
--- Button
-Tab:Button({
-    Title = "Run Action",
-    Icon = "play",
-    Callback = function()
-        print("Button clicked")
-    end,
-})
-
-Tab:Space()
-
--- Slider
-Tab:Slider({
-    Title = "Walk Speed",
-    Step = 1,
-    Value = {
-        Min = 16,
-        Max = 100,
-        Default = 16,
-    },
-    Callback = function(value)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
-    end,
-})
-
-Tab:Space()
-
--- Dropdown
-Tab:Dropdown({
-    Title = "Select Team",
-    Values = { "Red", "Blue", "Green" },
-    Value = 1,
-    Callback = function(selectedValue)
-        print("Team selected:", selectedValue)
     end,
 })
 
