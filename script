@@ -1,3 +1,13 @@
+local function notifsound()
+                local sound = Instance.new("Sound")
+                sound.SoundId = "rbxassetid://131390520971848" -- Your sound ID
+                sound.Volume = 1 -- 0 to 1
+                sound.Parent = workspace -- Where the sound lives
+                sound:Play()
+                task.wait(2)
+                sound:Destroy()
+            end
+
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 
 local Window = WindUI:CreateWindow({
@@ -229,7 +239,7 @@ ESP:Toggle({
 
         getgenv().GhostESP = RunService.RenderStepped:Connect(function()
             for _, part in ipairs(Ghost.VisibleParts:GetChildren()) do
-                if part:IsA("Part") then
+                if part:IsA("MeshPart") then
                     part.Transparency = 0
                 end
             end
@@ -241,7 +251,7 @@ ESP:Toggle({
         getgenv().GhostESP:Disconnect()
         getgenv().GhostESP = nil
         for _, part in ipairs(Ghost.VisibleParts:GetChildren()) do
-             if part:IsA("Part") then
+             if part:IsA("MeshPart") then
                  part.Transparency = 1
              end
         end
@@ -262,13 +272,14 @@ Exploits:Toggle({
 
             GhostHuntChecker = ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
                 if ghost:GetAttribute("Hunting") then
-                    hrp.CFrame = truck.CFrame * CFrame.new(0, 10, 0)
+                    hrp.CFrame = truck.CFrame * CFrame.new(0, 1.5, 0)
                     WindUI:Notify({
                         Title = "Notifier",
                         Content = "ghost hunt started",
                         Icon = "solar:bell-bold",
                         Duration = 2,
                     })
+                    notifsound()
                 else
                     WindUI:Notify({
                         Title = "Notifier",
@@ -276,6 +287,7 @@ Exploits:Toggle({
                         Icon = "solar:bell-bold",
                         Duration = 2,
                     })
+                    notifsound()
                 end
             end)      
         else
@@ -297,6 +309,7 @@ Exploits:Button({
           Icon = "solar:bell-bold",
           Duration = 2,
         })
+        notifsound()
   end,
 })
 
@@ -306,6 +319,7 @@ WindUI:Notify({
     Icon = "solar:bell-bold",
     Duration = 5,
 })
+notifsound()
 
 WindUI:AddTheme({
     Name       = "Ocean",
