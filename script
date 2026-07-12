@@ -157,25 +157,26 @@ ESP:Toggle({
                     label.Parent = billboard
                     billboard.Parent = Handprint
                     highlight.Parent = Handprint
-                    Handprint.Transparency = 0
+                    Handprint:FindFirstChildOfClass("Decal").Transparency = 0
                 end
             end
 
             for _, Handprint in ipairs(game.Workspace.Handprints:GetDescendants()) do
-                if Handprint.Parent.Parent.Name == "Handprints" and Handprint:IsA("Decal") then
+                if Handprint.Parent.Name == "Handprints" and Handprint:IsA("Part") then
                     highlight(Handprint)
                 end
             end
             HandprintDescendantChecker = game.Workspace.Handprints.DescendantAdded:Connect(function(Handprint)
-                if Handprint.Parent.Parent.Name == "Handprints" and Handprint:IsA("Decal") then
+                if Handprint.Parent.Name == "Handprints" and Handprint:IsA("Part") then
                     highlight(Handprint)
                 end
             end)
         else
             for _, Handprint in ipairs(game.Workspace.Handprints:GetDescendants()) do
-                if Handprint.Parent.Parent.Name == "Handprints" and Handprint:IsA("Decal") and Handprint:FindFirstChildOfClass("BillboardGui") and Handprint:FindFirstChildOfClass("Highlight") then
+                if Handprint.Parent.Name == "Handprints" and Handprint:IsA("Part") and Handprint:FindFirstChildOfClass("BillboardGui") and Handprint:FindFirstChildOfClass("Highlight") then
                     Handprint:FindFirstChildOfClass("BillboardGui"):Destroy()
                     Handprint:FindFirstChildOfClass("Highlight"):Destroy()
+                    Handprint:FindFirstChildOfClass("Decal").Transparency = 1
                 end
             end
             HandprintDescendantChecker:Disconnect()
