@@ -19,13 +19,31 @@ Tab:Toggle({
     Callback = function(value)
         if value then
             local function addhighlight(Evidence)
-                if not Evidence:FindFirstChildOfClass("Highlight") and not Evidence:FindFirstChildOfClass("Humanoid") then
-                    local hHum = Instance.new("Humanoid")
+                if not Evidence:FindFirstChildOfClass("Highlight") and Evidence:FindFirstChildOfClass("BillboardGui") then
+                    local billboard = Instance.new("BillboardGui")
+                    local label = Instance.new("TextLabel")
                     local highlight = Instance.new("Highlight")
+
+                    billboard.Adornee = Evidence -- Must attach to a part/model
+                    billboard.Size = UDim2.new(4, 0, 2, 0) -- Width, height
+                    billboard.MaxDistance = 10000 -- Visibility range
+                    billboard.StudsOffset = Vector3.new(0, 3, 0) -- Offset from part
+
+                    label.Size = UDim2.new(1, 0, 1, 0) -- Fill parent
+                    label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                    label.BackgroundTransparency = 0.3
+                    label.TextColor3 = Color3.fromRGB(255, 165, 0)
+                    label.TextSize = 14
+                    label.Text = "Evidence.Name"
+
+                    highlight.FillTransparency = 0.5
+                    highlight.OutlineTransparency = 1
+                    highlight.FillColor = Color3.fromRGB(255, 165, 0)
+
+                    label.Parent = billboard
+                    billboard.Parent = Evidence
                     highlight.Parent = Evidence
-                    hHum.Parent = Evidence
-                    Evidence.Transparency = 0.99
-                    print("dada")
+                    Evidence.Transparency = 0
                 end
             end
 
@@ -36,9 +54,9 @@ Tab:Toggle({
             end
         else
             for _, Evidence in ipairs(game.Workspace:GetDescendants()) do
-                if Evidence:FindFirstChildOfClass("Highlight") and Evidence:FindFirstChildOfClass("Humanoid") and Evidence.Name == "GhostOrb" or Evidence.Parent == "Handprints" then
+                if Evidence:FindFirstChildOfClass("Highlight") and Evidence:FindFirstChildOfClass("BillboardGui") and Evidence.Name == "GhostOrb" or Evidence.Parent == "Handprints" then
                     Evidence:FindFirstChildOfClass("Highlight"):Destroy()
-                    Evidence:FindFirstChildOfClass("Humanoid"):Destroy()
+                    Evidence:FindFirstChildOfClass("BillboardGui"):Destroy()
                     Evidence.Transparency = 1
                     print("jewjej")
                 end
