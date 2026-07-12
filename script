@@ -117,6 +117,7 @@ ESP:Toggle({
     end,
 })
 
+local HandprintDescendantChecker
 ESP:Toggle({
   Flag = "HandprintToggle",
   Title = "Handprint ESP",
@@ -124,7 +125,6 @@ ESP:Toggle({
   Value = false,
   Callback = function(value)
         if value then
-
             local function highlight(Handprint)
                 if not Handprint:FindFirstChildOfClass("Highlight") and not Handprint:FindFirstChildOfClass("BillboardGui") then
                     local billboard = Instance.new("BillboardGui")
@@ -174,10 +174,12 @@ ESP:Toggle({
         else
             for _, Handprint in ipairs(game.Workspace.Handprints:GetDescendants()) do
                 if Handprint.Parent.Parent.Name == "Handprints" and Handprint:IsA("Decal") and Handprint:FindFirstChildOfClass("BillboardGui") and Handprint:FindFirstChildOfClass("Highlight") then
-                    Handprint:FindFirstChildOfClass("BillboardGui")
-                    Handprint:FindFirstChildOfClass("Highlight")
+                    Handprint:FindFirstChildOfClass("BillboardGui"):Destroy()
+                    Handprint:FindFirstChildOfClass("Highlight"):Destroy()
                 end
             end
+            HandprintDescendantChecker:Disconnect()
+            HandprintDescendantChecker = nil
         end
   end,
 })
