@@ -12,8 +12,8 @@ local localplayer = Window:Tab({
     Icon = "user",
 })
 
-local Main = Window:Tab({
-    Title = "Main",
+local ESP = Window:Tab({
+    Title = "ESP",
     Icon = "home",
 })
 
@@ -49,9 +49,9 @@ localplayer:Toggle({
 })
 
 local EvidenceDescendantChecker
-Main:Toggle({
-    Flag = "EvidenceToggle",
-    Title = "Evidence ESP",
+ESP:Toggle({
+    Flag = "GhostOrbToggle",
+    Title = "Ghost Orb ESP",
     Value = false,
     Callback = function(value)
         if value then
@@ -73,6 +73,11 @@ Main:Toggle({
                     label.TextColor3 = Color3.fromRGB(255, 165, 0)
                     label.TextSize = 14
                     label.Text = Evidence.Name
+                    label.FontFace = Font.new(
+                        "rbxasset://fonts/families/LuckiestGuy.json",
+                        Enum.FontWeight.Regular,
+                        Enum.FontStyle.Normal
+                    )
 
                     highlight.FillTransparency = 0.5
                     highlight.OutlineTransparency = 1
@@ -110,6 +115,71 @@ Main:Toggle({
             EvidenceDescendantChecker = nil
         end
     end,
+})
+
+ESP:Toggle({
+  Flag = "HandprintToggle",
+  Title = "Handprint ESP",
+  Desc = "Toggle Description",
+  Value = false,
+  Callback = function(value)
+        if value then
+
+            local function highlight(Handprint)
+                if not Handprint:FindFirstChildOfClass("Highlight") and not Handprint:FindFirstChildOfClass("BillboardGui") then
+                    local billboard = Instance.new("BillboardGui")
+                    local label = Instance.new("TextLabel")
+                    local highlight = Instance.new("Highlight")
+
+                    billboard.Adornee = Handprint -- Must attach to a part/model
+                    billboard.Size = UDim2.new(4, 0, 2, 0) -- Width, height
+                    billboard.MaxDistance = 10000 -- Visibility range
+                    billboard.StudsOffset = Vector3.new(0, 1, 0) -- Offset from part
+                    billboard.AlwaysOnTop = true
+
+                    label.Size = UDim2.new(1, 0, 1, 0) -- Fill parent
+                    label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                    label.BackgroundTransparency = 1
+                    label.TextColor3 = Color3.fromRGB(255, 165, 0)
+                    label.TextSize = 14
+                    label.Text = Handprint.Name
+                    label.FontFace = Font.new(
+                        "rbxasset://fonts/families/LuckiestGuy.json",
+                        Enum.FontWeight.Regular,
+                        Enum.FontStyle.Normal
+                    )
+
+                    highlight.FillTransparency = 0.5
+                    highlight.OutlineTransparency = 1
+                    highlight.FillColor = Color3.fromRGB(255, 165, 0)
+                    highlight.Adornee = Handprint
+
+                    label.Parent = billboard
+                    billboard.Parent = Handprint
+                    highlight.Parent = Handprint
+                    Handprint.Transparency = 0
+                end
+            end
+
+            for _, Handprint in ipairs(game.Workspace.Handprints:GetDescendants()) do
+                if Handprint.Parent.Parent.Name == "Handprints" and Handprint:IsA("Decal") then
+                    highlight(Handprint)
+                end
+            end
+            HandprintDescendantChecker = game.Workspace.Handprints.DescendantAdded:Connect(function(Handprint)
+                if Handprint.Parent.Parent.Name == "Handprints" and Handprint:IsA("Decal") then
+                    highlight(Handprint)
+                end
+            end)
+        else
+            for _, Handprint in ipairs(game.Workspace.Handprints:GetDescendants()) do
+                if Handprint.Parent.Parent.Name == "Handprints" and Handprint:IsA("Decal") and Handprint:FindFirstChildOfClass("BillboardGui") and Handprint:FindFirstChildOfClass("Highlight") then
+                    Handprint:FindFirstChildOfClass("BillboardGui")
+                    Handprint:FindFirstChildOfClass("Highlight")
+                end
+            end
+        end
+  end,
 })
 
 WindUI:Notify({
