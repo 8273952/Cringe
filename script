@@ -64,12 +64,12 @@ Main:Toggle({
                     billboard.Adornee = Evidence -- Must attach to a part/model
                     billboard.Size = UDim2.new(4, 0, 2, 0) -- Width, height
                     billboard.MaxDistance = 10000 -- Visibility range
-                    billboard.StudsOffset = Vector3.new(0, 3, 0) -- Offset from part
+                    billboard.StudsOffset = Vector3.new(0, 1, 0) -- Offset from part
                     billboard.AlwaysOnTop = true
 
                     label.Size = UDim2.new(1, 0, 1, 0) -- Fill parent
                     label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-                    label.BackgroundTransparency = 0.3
+                    label.BackgroundTransparency = 1
                     label.TextColor3 = Color3.fromRGB(255, 165, 0)
                     label.TextSize = 14
                     label.Text = Evidence.Name
@@ -87,19 +87,19 @@ Main:Toggle({
             end
 
             for _, Evidence in ipairs(game.Workspace:GetDescendants()) do
-                if Evidence.Name == "GhostOrb" or Evidence.Parent.Name == "Handprints" then
+                if Evidence.Name == "GhostOrb" then
                     addhighlight(Evidence)
                 end
             end
             EvidenceDescendantChecker = game.Workspace.DescendantAdded:Connect(function(Evidence)
-                if Evidence.Name == "GhostOrb" or Evidence.Parent.Name == "Handprints" then
+                if Evidence.Name == "GhostOrb" then
                     addhighlight(Evidence)
                     print("bruh")
                 end
             end)
         else
             for _, Evidence in ipairs(game.Workspace:GetDescendants()) do
-                if Evidence:FindFirstChildOfClass("Highlight") and Evidence:FindFirstChildOfClass("BillboardGui") and Evidence.Name == "GhostOrb" or Evidence.Parent.Name == "Handprints" then
+                if Evidence:FindFirstChildOfClass("Highlight") and Evidence:FindFirstChildOfClass("BillboardGui") and Evidence.Name == "GhostOrb" then
                     Evidence:FindFirstChildOfClass("Highlight"):Destroy()
                     Evidence:FindFirstChildOfClass("BillboardGui"):Destroy()
                     Evidence.Transparency = 1
