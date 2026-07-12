@@ -17,8 +17,8 @@ local ESP = Window:Tab({
     Icon = "home",
 })
 
-local Misc = Window:Tab({
-    Title = "Misc",
+local Exploits = Window:Tab({
+    Title = "Exploits",
     Icon = "home",
 })
 
@@ -192,7 +192,7 @@ ESP:Toggle({
 })
 
 local GhostHuntChecker
-Misc:Toggle({
+Exploits:Toggle({
   Flag = "ghosthuntcheckToggle",
   Title = "Bypass Ghost Hunt",
   Value = false,
@@ -205,8 +205,10 @@ Misc:Toggle({
                     if sound.SoundId == "rbxassetid://89871052622148" then
                         hrp.CFrame = truck.CFrame
                         WindUI:Notify({
-                          Title = "d",
+                          Title = "Notifier",
                           Content = "ghost hunt",
+                          Icon = "solar:bell-bold",
+                          Duration = 2,
                         })
                     end
                 end
@@ -216,6 +218,20 @@ Misc:Toggle({
             GhostHuntChecker = nil
             print("Disabled ghost hunt stuff")
         end
+  end,
+})
+
+Exploits:Button({
+  Title = "Locate Ghost Room",
+  Callback = function()
+        local ghost = game.Workspace.Ghost
+        local room = ghost:GetAttribute("FavoriteRoom")
+        WindUI:Notify({
+          Title = "Notifier",
+          Content = "Ghost favourite room is " .. tostring(room),
+          Icon = "solar:bell-bold",
+          Duration = 2,
+        })
   end,
 })
 
