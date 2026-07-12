@@ -200,19 +200,26 @@ Exploits:Toggle({
         if value then
             local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
             local truck = game.Workspace.Map.Rooms["Base Camp"].Truck.Primary
-            GhostHuntChecker = game.DescendantAdded:Connect(function(sound)
-                if sound:IsA("Sound") then
-                    if sound.SoundId == "rbxassetid://89871052622148" then
-                        hrp.CFrame = truck.CFrame
-                        WindUI:Notify({
-                          Title = "Notifier",
-                          Content = "ghost hunt",
-                          Icon = "solar:bell-bold",
-                          Duration = 2,
-                        })
-                    end
+            local ghost = workspace.Ghost
+
+            GhostHuntChecker = ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
+                if ghost:GetAttribute("Hunting") then
+                    hrp.CFrame = truck.CFrame
+                    WindUI:Notify({
+                        Title = "Notifier",
+                        Content = "ghost hunt started",
+                        Icon = "solar:bell-bold",
+                        Duration = 2,
+                    })
+                else
+                    WindUI:Notify({
+                        Title = "Notifier",
+                        Content = "ghost hunt ended",
+                        Icon = "solar:bell-bold",
+                        Duration = 2,
+                    })
                 end
-            end)
+            end)      
         else
             GhostHuntChecker:Disconnect()
             GhostHuntChecker = nil
