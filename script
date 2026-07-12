@@ -199,44 +199,53 @@ ESP:Toggle({
     if value then
         local Ghost = game.workspace:WaitForChild("Ghost")
         local highlight = Instance.new("Highlight")
-        local hpart = Instance.new("Part")
-        local weld = Instance.new("WeldConstraint")
         local billboard = Instance.new("BillboardGui")
         local text = Instance.new("TextLabel")
-
-        hpart.Shape = "Ball"
-        hpart.CFrame = Ghost.HumanoidRootPart.CFrame
-        hpart.Anchored = false
-        hpart.Transparency = 0.99
-        hpart.CanCollide = false
-        hpart.Size = Vector3.new(4, 4, 4)
-        hpart.name = "hpart"
+        local Runtime = 
 
         billboard.Size = UDim2.new(4, 0, 2, 0)
         billboard.MaxDistance = 10000 -- Visibility range
         billboard.StudsOffset = Vector3.new(0, 1, 0) -- Offset from part
         billboard.AlwaysOnTop = true
-        billboard.Adornee = Ghost
+        billboard.Adornee = hpart
 
         text.Text = "Ghost"
         text.Size = UDim2.new(1, 0, 1, 0)
-        text.Adornee = Ghost
+        text.TextSize = 16
+        text.TextColor3 = Color3.fromRGB(255, 0, 0)
+        text.BackgroundTransparency = 1
+        text.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        text.FontFace = Font.new(
+                "rbxasset://fonts/families/LuckiestGuy.json",
+                Enum.FontWeight.Regular,
+                Enum.FontStyle.Normal
+            )
 
         highlight.Adornee = Ghost
 
-        weld.Part0 = Ghost.HumanoidRootPart
-        weld.Part1 = hpart
-
-        weld.Parent = hpart
         text.Parent = billboard
         billboard.Parent = Ghost
-        highlight.Parent = hpart
-        hpart.Parent = Ghost
+        highlight.Parent = Ghost
+
+        local RunService = game:GetService("RunService")
+        getgenv().GhostESP = RunService.RenderStepped:Connect(function()
+            for _, part in ipairs(Ghost.VisibleParts:GetChildren()) do
+                if part:IsA("Part") then
+                    part.Transparency = 0
+                end
+            end
+        end)
     else
         local Ghost = game.Workspace.Ghost
         Ghost:FindFirstChildOfClass("BillboardGui"):Destroy()
-        Ghost:FindFirstChild("hpart"):Destroy()
-        Ghost:FindFirstChildOfClass("WeldConstraint"):Destroy()
+        Ghost:FindFirstChildOfClass("Highlight"):Destroy()
+        getgenv().GhostESP:Disconnect()
+        getgenv().GhostESP = nil
+        for _, part in ipairs(Ghost.VisibleParts:GetChildren()) do
+             if part:IsA("Part") then
+                 part.Transparency = 1
+             end
+        end
     end
   end,
 })
