@@ -37,12 +37,14 @@ localplayer:Toggle({
   Value = false,
   Callback = function(value)
         if value then
+            local RunService = game:GetService("RunService")
             local hum = game.Players.LocalPlayer.Character.Humanoid
-            while value do
-                hum.WalkSpeed = 16 + getgenv().WSslider
-                task.wait(0.1)
-            end
+            getgenv().loopWalkSpeed = RunService.RenderStepped:Connect(function()
+               hum.WalkSpeed = 16 + getgenv().WSslider
+          end)
         else
+            getgenv().loopWalkSpeed:Disconnect()
+            getgenv().loopWalkSpeed = nil
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
         end
   end,
