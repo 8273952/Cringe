@@ -201,7 +201,7 @@ ESP:Toggle({
         local highlight = Instance.new("Highlight")
         local billboard = Instance.new("BillboardGui")
         local text = Instance.new("TextLabel")
-        local Runtime = 
+        local RunService = game:GetService("RunService")
 
         billboard.Size = UDim2.new(4, 0, 2, 0)
         billboard.MaxDistance = 10000 -- Visibility range
@@ -227,7 +227,6 @@ ESP:Toggle({
         billboard.Parent = Ghost
         highlight.Parent = Ghost
 
-        local RunService = game:GetService("RunService")
         getgenv().GhostESP = RunService.RenderStepped:Connect(function()
             for _, part in ipairs(Ghost.VisibleParts:GetChildren()) do
                 if part:IsA("Part") then
