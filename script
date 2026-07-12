@@ -38,10 +38,10 @@ localplayer:Toggle({
   Callback = function(value)
         if value then
             local hum = game.Players.LocalPlayer.Character.Humanoid
-            while value do
+            
                 hum.WalkSpeed = 16 + getgenv().WSslider
                 task.wait(0.1)
-            end
+            
         else
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
         end
@@ -104,6 +104,8 @@ Main:Toggle({
                     print("jewjej")
                 end
             end
+            EvidenceDescendantChecker:Disconnect
+            EvidenceDescendantChecker = nil
         end
     end,
 })
