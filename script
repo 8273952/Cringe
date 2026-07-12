@@ -106,7 +106,7 @@ Main:Toggle({
                     print("jewjej")
                 end
             end
-            EvidenceDescendantChecker:Disconnect
+            EvidenceDescendantChecker:Disconnect()
             EvidenceDescendantChecker = nil
         end
     end,
