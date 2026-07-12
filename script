@@ -200,13 +200,16 @@ Misc:Toggle({
         if value then
             local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
             local truck = game.Workspace.Map.Rooms["Base Camp"].Truck.Primary
-            local sound = game:GetService("ReplicatedStorage").Assets.SoundEffects.Hunt
-            GhostHuntChecker = sound.Played:Connect(function()
-                hrp.CFrame = truck.CFrame
-                WindUI:Notify({
-                  Title = "Hunt notifier",
-                  Content = "Ghost hunt started",
-                })
+            GhostHuntChecker = game.DescendantAdded:Connect(function(sound)
+                if sound:IsA("Sound") then
+                    if sound.SoundId == "rbxassetid://89871052622148" then
+                        hrp.CFrame = truck.CFrame
+                        WindUI:Notify({
+                          Title = "d",
+                          Content = "ghost hunt",
+                        })
+                    end
+                end
             end)
         else
             GhostHuntChecker:Disconnect()
