@@ -38,10 +38,10 @@ localplayer:Toggle({
   Callback = function(value)
         if value then
             local hum = game.Players.LocalPlayer.Character.Humanoid
-            
+            while value do
                 hum.WalkSpeed = 16 + getgenv().WSslider
                 task.wait(0.1)
-            
+            end
         else
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
         end
@@ -56,7 +56,7 @@ Main:Toggle({
     Callback = function(value)
         if value then
             local function addhighlight(Evidence)
-                if not Evidence:FindFirstChildOfClass("Highlight") and Evidence:FindFirstChildOfClass("BillboardGui") then
+                if not Evidence:FindFirstChildOfClass("Highlight") and not Evidence:FindFirstChildOfClass("BillboardGui") then
                     local billboard = Instance.new("BillboardGui")
                     local label = Instance.new("TextLabel")
                     local highlight = Instance.new("Highlight")
@@ -65,17 +65,19 @@ Main:Toggle({
                     billboard.Size = UDim2.new(4, 0, 2, 0) -- Width, height
                     billboard.MaxDistance = 10000 -- Visibility range
                     billboard.StudsOffset = Vector3.new(0, 3, 0) -- Offset from part
+                    billboard.AlwaysOnTop = true
 
                     label.Size = UDim2.new(1, 0, 1, 0) -- Fill parent
                     label.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
                     label.BackgroundTransparency = 0.3
                     label.TextColor3 = Color3.fromRGB(255, 165, 0)
                     label.TextSize = 14
-                    label.Text = "Evidence.Name"
+                    label.Text = Evidence.Name
 
                     highlight.FillTransparency = 0.5
                     highlight.OutlineTransparency = 1
                     highlight.FillColor = Color3.fromRGB(255, 165, 0)
+                    highlight.Adornee = Evidence
 
                     label.Parent = billboard
                     billboard.Parent = Evidence
