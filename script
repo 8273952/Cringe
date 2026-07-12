@@ -7,13 +7,50 @@ local Window = WindUI:CreateWindow({
     Folder = "LOL",
 })
 
-local Tab = Window:Tab({
+local localplayer = Window:Tab({
+    Title = "localplayer",
+    Icon = "user",
+})
+
+local Main = Window:Tab({
     Title = "Main",
     Icon = "home",
 })
 
--- Toggle
-Tab:Toggle({
+localplayer:Slider({
+  Flag = "WSslider",
+  Title = "Walkspeed",
+  Step = 1,
+  Value = {
+    Min = 0,
+    Max = 50,
+    Default = 0,
+  },
+  Callback = function(value)
+    getgenv().WSslider = value
+  end,
+})
+
+localplayer:Toggle({
+  Flag = "WSEnableToggle",
+  Title = "Enable",
+  Value = false,
+  Callback = function(value)
+        if value then
+            local hum = game.Players.LocalPlayer.Character.Humanoid
+            while value do
+                hum.WalkSpeed = 16 + getgenv().WSslider
+                task.wait(0.1)
+            end
+        else
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        end
+  end,
+})
+
+local EvidenceDescendantChecker
+Main:Toggle({
+    Flag = "EvidenceToggle",
     Title = "Evidence ESP",
     Value = false,
     Callback = function(value)
@@ -48,13 +85,19 @@ Tab:Toggle({
             end
 
             for _, Evidence in ipairs(game.Workspace:GetDescendants()) do
-                if Evidence.Name == "GhostOrb" or Evidence.Parent == "Handprints" then
+                if Evidence.Name == "GhostOrb" or Evidence.Parent.Name == "Handprints" then
                     addhighlight(Evidence)
                 end
             end
+            EvidenceDescendantChecker = game.Workspace.DescendantAdded:Connect(function(Evidence)
+                if Evidence.Name == "GhostOrb" or Evidence.Parent.Name == "Handprints" then
+                    addhighlight(Evidence)
+                    print("bruh")
+                end
+            end)
         else
             for _, Evidence in ipairs(game.Workspace:GetDescendants()) do
-                if Evidence:FindFirstChildOfClass("Highlight") and Evidence:FindFirstChildOfClass("BillboardGui") and Evidence.Name == "GhostOrb" or Evidence.Parent == "Handprints" then
+                if Evidence:FindFirstChildOfClass("Highlight") and Evidence:FindFirstChildOfClass("BillboardGui") and Evidence.Name == "GhostOrb" or Evidence.Parent.Name == "Handprints" then
                     Evidence:FindFirstChildOfClass("Highlight"):Destroy()
                     Evidence:FindFirstChildOfClass("BillboardGui"):Destroy()
                     Evidence.Transparency = 1
