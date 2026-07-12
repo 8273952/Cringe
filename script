@@ -17,6 +17,11 @@ local ESP = Window:Tab({
     Icon = "home",
 })
 
+local Misc = Window:Tab({
+    Title = "Misc",
+    Icon = "home",
+})
+
 localplayer:Slider({
   Flag = "WSslider",
   Title = "Walkspeed",
@@ -123,7 +128,6 @@ local HandprintDescendantChecker
 ESP:Toggle({
   Flag = "HandprintToggle",
   Title = "Handprint ESP",
-  Desc = "Toggle Description",
   Value = false,
   Callback = function(value)
         if value then
@@ -183,6 +187,31 @@ ESP:Toggle({
             end
             HandprintDescendantChecker:Disconnect()
             HandprintDescendantChecker = nil
+        end
+  end,
+})
+
+local GhostHuntChecker
+Misc:Toggle({
+  Flag = "ghosthuntcheckToggle",
+  Title = "Bypass Ghost Hunt",
+  Value = false,
+  Callback = function(value)
+        if value then
+            local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+            local truck = game.Workspace.Map.Rooms["Base Camp"].Truck.Primary
+            local sound = game:GetService("ReplicatedStorage").Assets.SoundEffects.Hunt
+            GhostHuntChecker = sound.Played:Connect(function()
+                hrp.CFrame = truck.CFrame
+                WindUI:Notify({
+                  Title = "Hunt notifier",
+                  Content = "Ghost hunt started",
+                })
+            end)
+        else
+            GhostHuntChecker:Disconnect()
+            GhostHuntChecker = nil
+            print("Disabled ghost hunt stuff")
         end
   end,
 })
