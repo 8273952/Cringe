@@ -191,6 +191,56 @@ ESP:Toggle({
   end,
 })
 
+ESP:Toggle({
+  Flag = "GhostESPToggle",
+  Title = "Ghost ESP",
+  Value = false,
+  Callback = function(value)
+    if value then
+        local Ghost = game.workspace:WaitForChild("Ghost")
+        local highlight = Instance.new("Highlight")
+        local hpart = Instance.new("Part")
+        local weld = Instance.new("WeldConstraint")
+        local billboard = Instance.new("BillboardGui")
+        local text = Instance.new("TextLabel")
+
+        hpart.Shape = "Ball"
+        hpart.CFrame = Ghost.HumanoidRootPart.CFrame
+        hpart.Anchored = false
+        hpart.Transparency = 0.99
+        hpart.CanCollide = false
+        hpart.Size = Vector3.new(4, 4, 4)
+        hpart.name = "hpart"
+
+        billboard.Size = UDim2.new(4, 0, 2, 0)
+        billboard.MaxDistance = 10000 -- Visibility range
+        billboard.StudsOffset = Vector3.new(0, 1, 0) -- Offset from part
+        billboard.AlwaysOnTop = true
+        billboard.Adornee = Ghost
+
+        text.Text = "Ghost"
+        text.Size = UDim2.new(1, 0, 1, 0)
+        text.Adornee = Ghost
+
+        highlight.Adornee = Ghost
+
+        weld.Part0 = Ghost.HumanoidRootPart
+        weld.Part1 = hpart
+
+        weld.Parent = hpart
+        text.Parent = billboard
+        billboard.Parent = Ghost
+        highlight.Parent = hpart
+        hpart.Parent = Ghost
+    else
+        local Ghost = game.Workspace.Ghost
+        Ghost:FindFirstChildOfClass("BillboardGui"):Destroy()
+        Ghost:FindFirstChild("hpart"):Destroy()
+        Ghost:FindFirstChildOfClass("WeldConstraint"):Destroy()
+    end
+  end,
+})
+
 local GhostHuntChecker
 Exploits:Toggle({
   Flag = "ghosthuntcheckToggle",
@@ -204,7 +254,7 @@ Exploits:Toggle({
 
             GhostHuntChecker = ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
                 if ghost:GetAttribute("Hunting") then
-                    hrp.CFrame = truck.CFrame
+                    hrp.CFrame = truck.CFrame * CFrame.new(0, 10, 0)
                     WindUI:Notify({
                         Title = "Notifier",
                         Content = "ghost hunt started",
