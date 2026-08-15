@@ -1,0 +1,139 @@
+local function notifsound()
+                local sound = Instance.new("Sound")
+                sound.SoundId = "rbxassetid://131390520971848" -- Your sound ID
+                sound.Volume = 1 -- 0 to 1
+                sound.Parent = workspace -- Where the sound lives
+                sound:Play()
+                task.wait(2)
+                sound:Destroy()
+            end
+
+local _version = "1.6.66"
+local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
+local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/8273952/ESPLibrary/refs/heads/main/Library.lua"))()
+
+ESPLibrary:SetTextSize(20)
+ESPLibrary:SetFillTransparency(0.7)
+ESPLibrary:SetOutlineTransparency(0)
+ESPLibrary:SetTextTransparency(0)
+ESPLibrary:SetTextOutlineTransparency(1)
+ESPLibrary:SetFadeTime(0.25)
+ESPLibrary:SetFont(Enum.Font.GothamSemibold)
+ESPLibrary:SetMatchColors(true)
+ESPLibrary:SetTracerOrigin("Bottom")
+ESPLibrary:SetTracerSize(0.1)
+ESPLibrary:SetDistanceSizeRatio(1)
+ESPLibrary:SetShowDistance(true)
+ESPLibrary:SetTracers(true)
+
+local Chr = game:GetService("Players").LocalPlayer.Character
+local Plr = game:GetService("Players").LocalPlayer
+local Hum = game:GetService("Players").LocalPlayer.Character.Humanoid
+local Hrp = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local Rooms = game:GetService("Workspace").CurrentRooms
+local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
+
+local loading = WindUI:Notify({
+  Title = "Loading...",
+  CanClose = false,
+  Duration = 9999999999999999999999999,
+})
+notifsound()
+
+task.wait(3)
+loading:Close()
+
+WindUI:AddTheme({
+    Name       = "Ocean",
+
+    Accent     = Color3.fromHex("#0c3547"),
+    Dialog     = Color3.fromHex("#071e2b"),
+    Outline    = Color3.fromHex("#38bdf8"),
+    Text       = Color3.fromHex("#e0f2fe"),
+    Placeholder = Color3.fromHex("#4ea8c9"),
+    Background = Color3.fromHex("#040f18"),
+    Button     = Color3.fromHex("#0369a1"),
+    Icon       = Color3.fromHex("#38bdf8"),
+    Toggle     = Color3.fromHex("#0ea5e9"),
+    Slider     = Color3.fromHex("#0ea5e9"),
+    Checkbox   = Color3.fromHex("#0ea5e9"),
+
+    PanelBackground            = Color3.fromHex("#FFFFFF"),
+    PanelBackgroundTransparency = 0.95,
+})
+
+WindUI:SetTheme("Ocean")
+
+WindUI:SetNotificationLower(true)
+local Window = WindUI:CreateWindow({
+    Title = "Idk hub",
+    Icon = "house",
+    Theme = "Ocean",
+    User = {
+        Enabled = true,
+        Anonymous = false,
+    },
+    Background = "rbxassetid://17467150663",
+    BackgroundImageTransparency = 0.3,
+    Folder = "Idk Hub",
+})
+
+-- tabs -- 
+
+local General = Window:Tab({
+    Title = "General",
+    Icon = "star",
+})
+
+-- sections (General) --
+
+local CharacterSection = General:Section({
+    Title = "Character"
+})
+
+-- toggles and stuff (General)
+
+getgenv().WalkSpeedValue = 35
+CharacterSection:Slider({
+  Flag = "WalkspeedValueSlider",
+  Title = "Walkspeed",
+  Step = 1,
+  Value = {
+    Min = 2,
+    Max = 100,
+    Default = 35,
+  },
+  Callback = function(value)
+      getgenv().WalkSpeedValue = value
+  end,
+})
+
+CharacterSection:Toggle({
+  Flag = "EnableWalkspeedToggle",
+  Title = "Enable Walkspeed",
+  Value = false,
+  Callback = function(value)
+      getgenv().EnabledWalkspeedToggle = value
+      if getgenv().EnabledWalkspeedToggle then
+          task.spawn(function()
+              while getgenv().EnabledWalkspeedToggle do
+                  hum.Walkspeed = getgenv().WalkSpeedValue
+                  task.wait(0.05)
+              end
+          end)
+      else
+          hum.Walkspeed = 15
+      end
+  end,
+})
+
+CharacterSection:Toggle({
+  Flag = "NoAccelerationToggle",
+  Title = "No acceleration",
+  Value = false,
+  Callback = function(value)
+      print(value)
+  end,
+})
