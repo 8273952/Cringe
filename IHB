@@ -41,7 +41,7 @@ local Window = WindUI:CreateWindow({
         Enabled = true,
         Anonymous = false,
     },
-    Background = "rbxassetid://17467150683",
+    Background = "rbxassetid://17467150663",
     Folder = "Idk Hub",
 })
 
