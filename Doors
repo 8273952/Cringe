@@ -119,12 +119,12 @@ CharacterSection:Toggle({
       if getgenv().EnabledWalkspeedToggle then
           task.spawn(function()
               while getgenv().EnabledWalkspeedToggle do
-                  Hum.Walkspeed = getgenv().WalkSpeedValue
+                  Hum.WalkSpeed = getgenv().WalkSpeedValue
                   task.wait(0.05)
               end
           end)
       else
-          Hum.Walkspeed = 15
+          Hum.WalkSpeed = 15
       end
   end,
 })
