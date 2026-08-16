@@ -42,11 +42,11 @@ local function NewChr(NewChr)
 end
 
 if Plr.Character then
-    NewChr(NewChr)
+    NewChr(Plr.Character)
 end
 
-Plr.CharacterAdded:Connect(function(NewChr)
-    NewChr(NewChr)
+Plr.CharacterAdded:Connect(function(NewCharacter)
+    NewChr(NewCharacter)
 end)
 
 WindUI:AddTheme({
@@ -72,7 +72,7 @@ WindUI:SetTheme("Ocean")
 
 local loading = WindUI:Notify({
   Title = "Idk",
-  Content = "Loading..."
+  Content = "Loading...",
   CanClose = false,
   Duration = 9999999999999999999999999,
 })
