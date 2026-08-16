@@ -26,14 +26,28 @@ ESPLibrary:SetDistanceSizeRatio(1)
 ESPLibrary:SetShowDistance(true)
 ESPLibrary:SetTracers(true)
 
-local Chr = game:GetService("Players").LocalPlayer.Character
+local Chr
 local Plr = game:GetService("Players").LocalPlayer
-local Hum = game:GetService("Players").LocalPlayer.Character.Humanoid
-local Hrp = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+local Hum
+local Hrp
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local Rooms = game:GetService("Workspace").CurrentRooms
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
+
+local function NewChr(NewChr)
+    Chr = NewChr
+    Hum = NewChr:WaitForChild("Humanoid")
+    Hrp = NewChr:WaitForChild("HumanoidRootPart")
+end
+
+if Plr.Character then
+    NewChr(NewChr)
+end
+
+Plr.CharacterAdded:Connect(function(NewChr)
+    NewChr(NewChr)
+end)
 
 WindUI:AddTheme({
     Name       = "Ocean",
