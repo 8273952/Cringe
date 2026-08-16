@@ -1,12 +1,12 @@
 local function notifsound()
-                local sound = Instance.new("Sound")
-                sound.SoundId = "rbxassetid://131390520971848" -- Your sound ID
-                sound.Volume = 1 -- 0 to 1
-                sound.Parent = workspace -- Where the sound lives
-                sound:Play()
-                task.wait(2)
-                sound:Destroy()
-            end
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://131390520971848"
+    sound.Volume = 1 -- 0 to 1
+    sound.Parent = workspace
+    sound:Play()
+    task.wait(2)
+    sound:Destroy()
+end
 
 local _version = "1.6.66"
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
@@ -35,16 +35,6 @@ local Workspace = game:GetService("Workspace")
 local Rooms = game:GetService("Workspace").CurrentRooms
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
 
-local loading = WindUI:Notify({
-  Title = "Loading...",
-  CanClose = false,
-  Duration = 9999999999999999999999999,
-})
-notifsound()
-
-task.wait(3)
-loading:Close()
-
 WindUI:AddTheme({
     Name       = "Ocean",
 
@@ -66,6 +56,17 @@ WindUI:AddTheme({
 
 WindUI:SetTheme("Ocean")
 
+local loading = WindUI:Notify({
+  Title = "Idk",
+  Content = "Loading..."
+  CanClose = false,
+  Duration = 9999999999999999999999999,
+})
+notifsound()
+
+task.wait(3)
+loading:Close()
+
 WindUI:SetNotificationLower(true)
 local Window = WindUI:CreateWindow({
     Title = "Idk hub",
@@ -76,7 +77,7 @@ local Window = WindUI:CreateWindow({
         Anonymous = false,
     },
     Background = "rbxassetid://17467150663",
-    BackgroundImageTransparency = 0.3,
+    BackgroundImageTransparency = 0.7,
     Folder = "Idk Hub",
 })
 
