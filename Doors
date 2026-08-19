@@ -95,20 +95,35 @@ local Window = WindUI:CreateWindow({
     Folder = "Idk Hub",
 })
 
--- tabs -- 
+-- Tabs -- 
 
 local General = Window:Tab({
     Title = "General",
-    Icon = "star",
+    Icon = "user",
 })
 
--- sections (General) --
+local Visuals = Window:Tab({
+    Title = "Visuals",
+    Icon = "eye",
+})
+
+-- sections (General Tab) --
 
 local CharacterSection = General:Section({
     Title = "Character"
 })
 
--- toggles and stuff (General)
+-- sections (Visuals Tab) --
+
+local ESPSection = Visuals:Section({
+    Title = "ESP"
+})
+
+local PlayerSection = Visuals:Section({
+    Title = "Player"
+})
+
+-- toggles and stuff (General Tab)
 
 getgenv().WalkSpeedValue = 35
 CharacterSection:Slider({
@@ -137,6 +152,7 @@ CharacterSection:Toggle({
                   if Hum then
                       Hum.WalkSpeed = getgenv().WalkSpeedValue
                   end
+                  RemotesFolder.Crouch:FireServer(false, true)
                   task.wait(0.05)
               end
           end)
@@ -144,6 +160,7 @@ CharacterSection:Toggle({
           if Hum then
               Hum.WalkSpeed = 15
           end
+          RemotesFolder.Crouch:FireServer(false, false)
       end
   end,
 })
@@ -202,3 +219,5 @@ CharacterSection:Toggle({
     end
   end,
 })
+
+-- Toggles and Stuff (Visuals Tab)
