@@ -220,4 +220,79 @@ CharacterSection:Toggle({
   end,
 })
 
--- Toggles and Stuff (Visuals Tab)
+-- Toggles and Stuff (Visuals Tab) --
+
+ESPSection:Toggle({
+  Flag = "DoorESPToggle",
+  Title = "Door ESP",
+  Value = false,
+  Callback = function(value)
+    if value then
+        local function highlight(Door)
+        	if not Door.Parent:FindFirstChild("hModel") then
+        		local Model = Instance.new("Model")
+        		Model.Name = "hModel"
+        		Model.Parent = Door.Parent
+        
+        		local humanoid = Instance.new("Humanoid")
+        		humanoid.Name = "hHum"
+        		humanoid.Parent = Model
+        
+        		local hPart = Instance.new("Part")
+        		hPart.Size = Door.Size
+        		hPart.CFrame = Door.CFrame
+        		hPart.Transparency = 0.99
+        		hPart.CanCollide = false
+        		hPart.Name = "hPart"
+        		hPart.Parent = Model
+        
+        		local weld = Instance.new("Weld")
+                weld.Part0 = Door
+                weld.Part1 = hPart
+                weld.C0 = CFrame.new(0, 0, 0)
+                weld.Parent = hPart
+        
+        		local RoomID = Door.Parent:GetAttribute("RoomID")
+        		ESPLibrary:AddESP({
+        			Object = hPart,
+        			Text = Door.Parent.Name .. "[" .. RoomID .. "]",
+        			Color = Color3.fromRGB(0, 255, 255)
+        		})
+        	end
+        end
+
+        for _, Door in ipairs(Rooms:GetDescendants()) do
+			if Door.Name == "Door" and Door.Parent.Name == "Door" then
+				highlight(Door)
+			end
+		end
+
+        DoorDescendantChecker = Rooms.DescendantAdded:Connect(function(Door)
+			if Door.Name == "Door" and Door.Parent.Name == "Door" then
+				highlight(Door)
+			end
+		end)
+    else
+        if DoorDescendantChecker then
+			DoorDescendantChecker:Disconnect()
+			DoorDescendantChecker = nil
+		end
+
+        for _, Door in ipairs(Rooms:GetDescendants()) do
+			if Door.Name == "Door" and Door.Parent.Name == "Door" then
+				local Model = Door.Parent:FindFirstChild("hModel")
+
+				if Model then
+					local hPart = Model:FindFirstChild("hPart")
+					if hPart then
+						ESPLibrary:RemoveESP(hPart)
+					end
+				end
+				if Model then
+					Model:Destroy()
+				end
+			end
+		end
+    end
+  end,
+})
