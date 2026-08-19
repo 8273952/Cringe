@@ -222,6 +222,7 @@ CharacterSection:Toggle({
 
 -- Toggles and Stuff (Visuals Tab) --
 
+local DoorDescendantChecker
 ESPSection:Toggle({
   Flag = "DoorESPToggle",
   Title = "Door ESP",
