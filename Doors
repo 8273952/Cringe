@@ -141,16 +141,64 @@ CharacterSection:Toggle({
               end
           end)
       else
-          Hum.WalkSpeed = 15
+          if Hum then
+              Hum.WalkSpeed = 15
+          end
       end
   end,
 })
 
+local oldPhysics = Hrp.CustomPhysicalProperties
 CharacterSection:Toggle({
   Flag = "NoAccelerationToggle",
   Title = "No acceleration",
   Value = false,
   Callback = function(value)
-      print(value)
+    getgenv().NoAccelToggleValue = value
+    if getgenv().NoAccelToggleValue then
+        task.spawn(function()
+            while getgenv().NoAccelToggleValue do
+                if Hrp then
+                    Hrp.CustomPhysicalProperties = PhysicalProperties.new(10, 0.7, 0)
+                end
+                task.wait(0.05)
+            end
+        end)
+    else
+        if Hrp then
+            Hrp.CustomPhysicalProperties = oldPhysics
+        end
+    end
+  end,
+})
+
+local CanJumpValueChanged
+CharacterSection:Toggle({
+  Flag = "EnableJumpToggle",
+  Title = "Enable Jump",
+  Value = false,
+  Callback = function(value)
+    if value then
+        if Chr:GetAttribute("CanJump") then
+            Chr:SetAttribute("CanJump", true)
+        else
+            Chr:SetAttribute("CanJump", true)
+        end
+
+        CanJumpValueChanged = Chr:GetAttributeChangedSignal("CanJump"):Connect(function()
+            if Chr:GetAttribute("CanJump") ~= true then
+                Chr:SetAttribute("CanJump", true)    
+            end
+        end)
+    else
+        if CanJumpValueChanged then
+            CanJumpValueChanged:Disconnect()
+            CanJumpValueChanged = nil
+        end
+
+        if Chr:GetAttribute("CanJump") then
+            Chr:SetAttribute("CanJump", false)
+        end
+    end
   end,
 })
