@@ -152,7 +152,7 @@ CharacterSection:Toggle({
                   if Hum then
                       Hum.WalkSpeed = getgenv().WalkSpeedValue
                   end
-                  RemotesFolder.Crouch:FireServer(false, true)
+                  RemotesFolder.Crouch:FireServer(true, true)
                   task.wait(0.05)
               end
           end)
