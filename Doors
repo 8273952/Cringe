@@ -30,6 +30,7 @@ local Chr
 local Plr = game:GetService("Players").LocalPlayer
 local Hum
 local Hrp
+local Camera = Workspace.CurrentCamera
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local Rooms = game:GetService("Workspace").CurrentRooms
@@ -221,6 +222,24 @@ CharacterSection:Toggle({
 })
 
 -- Toggles and Stuff (Visuals Tab) --
+
+PlayerSection:Slider({
+  Flag = "FovSlider",
+  Title = "Fov",
+  Step = 1,
+  Value = {
+    Min = 20,
+    Max = 120,
+    Default = 70,
+  },
+  Callback = function(value)
+    getgenv().FovValue = value
+  end,
+})
+
+RunService.RenderStepped:Connect(function()
+	Camera.FieldOfView = getgenv().FovValue
+end)
 
 local DoorDescendantChecker
 ESPSection:Toggle({
