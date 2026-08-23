@@ -565,9 +565,9 @@ ESPSection:Toggle({
 
 				repeat
 					task.wait()
-				until Entity:FindFirstChildOfClass("Part")
+				until Ent:FindFirstChildOfClass("Part")
 
-				local Hpart = Entity:FindFirstChildOfClass("Part")
+				local Hpart = Ent:FindFirstChildOfClass("Part")
 				Hpart.Transparency = 0.99
 
 				ESPLibrary:AddESP({
