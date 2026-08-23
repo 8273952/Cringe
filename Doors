@@ -608,7 +608,7 @@ ESPSection:Toggle({
 					 end
 	
 					 if Hpart then
-						ESPLibrary:RemoveESP(Ent)
+						ESPLibrary:RemoveESP(Hpart)
 						Hpart.Transparency = 1
 					 end
 				  end
