@@ -599,19 +599,19 @@ ESPSection:Toggle({
               if Ent and EntityNames[Ent.Name] then
                   if specialEnt[Ent.Name] then
 					 ESPLibrary:RemoveESP(Ent)
+				  else
+					 local Hhum = Ent:FindFirstChild("Hhum")
+					 local Hpart = Ent:FindFirstChildOfClass("Part")
+	
+					 if Hhum then
+						Hhum:Destroy()
+					 end
+	
+					 if Hpart then
+						ESPLibrary:RemoveESP(Ent)
+						Hpart.Transparency = 1
+					 end
 				  end
-			  else
-				 local Hhum = Ent:FindFirstChild("Hhum")
-				 local Hpart = Ent:FindFirstChildOfClass("Part")
-
-				 if Hhum then
-					Hhum:Destroy()
-				 end
-
-				 if Hpart then
-					ESPLibrary:RemoveESP(Ent)
-					Hpart.Transparency = 1
-				 end
               end
         end
 	end
