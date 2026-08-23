@@ -30,7 +30,7 @@ local Chr
 local Plr = game:GetService("Players").LocalPlayer
 local Hum
 local Hrp
-local Camera = Workspace.CurrentCamera
+local Camera = game:GetService("Workspace").CurrentCamera
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local Rooms = game:GetService("Workspace").CurrentRooms
@@ -223,6 +223,7 @@ CharacterSection:Toggle({
 
 -- Toggles and Stuff (Visuals Tab) --
 
+getgenv().FovValue = 70
 PlayerSection:Slider({
   Flag = "FovSlider",
   Title = "Fov",
