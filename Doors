@@ -248,6 +248,7 @@ PlayerSection:Slider({
     getgenv().FovValue = value
 
 	if MainGame then
+		print("MainGame found")
 		MainGame.fovtarget = getgenv().FovValue
 	end
 	local TweenFov = TweenService:Create(Camera, TweenValue, { FieldOfView = getgenv().FovValue })
