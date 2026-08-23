@@ -346,3 +346,58 @@ ESPSection:Toggle({
     end
   end,
 })
+
+local ObjectiveNames = {
+    ["KeyObtain"] = "Key",
+    ["LeverForGate"] = "Gate Lever",
+    ["LiveBreakerPolePickup"] = "Breaker",
+    ["LibraryHintPaper"] = "Hint Paper",
+    ["LiveHintBook"] = "Hint Book",
+    ["FuseObtain"] = "Fuse",
+    ["MinesGateButton"] = "Gate button",
+    ["MinesGenerator"] = "Generator",
+    ["TimerLever"] = "Time Lever",
+    ["MinesAnchor"] = "Anchor",
+    ["Console"] = "Console",
+}
+
+local ObjDescendantChecker
+ESPSection:Toggle({
+  Flag = "ObjESPToggle",
+  Title = "Objective ESP",
+  Value = false,
+  Callback = function(value)
+    if value then
+		for _, Obj in ipairs(Rooms:GetDescendants()) do
+			if ObjectiveNames[Obj.Name] then
+				ESPLibrary:AddESP({
+					Object = Obj,
+					Text = ObjectiveNames[Obj.Name],
+					Color = Color3.fromRGB(0, 255, 0)
+				})
+			end
+		end
+
+		ObjDescendantChecker = Rooms.DescendantAdded:Connect(function(Obj)
+			if ObjectiveNames[Obj.Name] then
+				ESPLibrary:AddESP({
+				Object = Obj,
+				Text = ObjectiveNames[Obj.Name],
+				Color = Color3.fromRGB(0, 255, 0)
+				})
+			end
+		end)
+	else
+		if ObjDescendantChecker then
+			ObjDescendantChecker:Disconnect()
+			ObjDescendantChecker = nil
+		end
+
+		for _, Obj in ipairs(Rooms:GetDescendants()) do
+			if ObjectiveNames[Obj.Name] then
+				ESPLibrary:RemoveESP(Obj)
+			end
+		end
+	end
+  end,
+})
