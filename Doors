@@ -83,7 +83,7 @@ end)
 
 
 
-getgenv().SpeedBypass = false
+getgenv().SpeedBypass = true
 
 -- create UI --
 
@@ -190,7 +190,6 @@ CharacterSection:Toggle({
                   if Hum then
                       Hum.WalkSpeed = getgenv().WalkSpeedValue
                   end
-                  getgenv().SpeedBypass = true
                   task.wait(0.05)
               end
           end)
@@ -198,7 +197,6 @@ CharacterSection:Toggle({
           if Hum then
               Hum.WalkSpeed = 15
           end
-          getgenv().SpeedBypass = false
       end
   end,
 })
