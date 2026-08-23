@@ -32,9 +32,7 @@ local Hum
 local Hrp
 local Camera = game:GetService("Workspace").CurrentCamera
 local Lighting = game:GetService("Lighting")
-local OldBrightness = Lighting.Brightness
 local OldAmbient = Lighting.Ambient
-local OldOutdoorAmbient = Lighting.OutdoorAmbient
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local Rooms = game:GetService("Workspace").CurrentRooms
@@ -253,10 +251,8 @@ PlayerSection:Toggle({
   Value = false,
   Callback = function(value)
     if value then
-		FBLoop = RunService.Renderstepped:Connect(function()
-			Lighting.Brightness = 2
+		FBLoop = RunService.RenderStepped:Connect(function()
 			Lighting.Ambient = Color3.fromRGB(255, 255, 255)
-			Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
 		end)
 	else
 		if FBLoop then
@@ -264,9 +260,7 @@ PlayerSection:Toggle({
 			FBLoop = nil
 		end
 
-		Lighting.Brightness = OldBrightness
 		Lighting.Ambient = OldAmbient
-		Lighting.OutdoorAmbient = OldOutdoorAmbient
 	end
   end,
 })
