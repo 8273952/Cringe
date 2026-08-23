@@ -33,6 +33,7 @@ local Hrp
 local Camera = game:GetService("Workspace").CurrentCamera
 local Lighting = game:GetService("Lighting")
 local OldAmbient = Lighting.Ambient
+local MainGame = game.ReplicatedStorage:FindFirstChild("MainGame")
 local TweenService = game:GetService("TweenService")
 local TweenValue = TweenInfo.new(
 	0.3,
@@ -245,7 +246,11 @@ PlayerSection:Slider({
   },
   Callback = function(value)
     getgenv().FovValue = value
-	local TweenFov = TweenService:Create(Camera, TweenValue, { FieldOfView = value })
+
+	if MainGame then
+		MainGame.fovtarget = getgenv().FovValue
+	end
+	local TweenFov = TweenService:Create(Camera, TweenValue, { FieldOfView = getgenv().FovValue })
 	TweenFov:Play()
   end,
 })
