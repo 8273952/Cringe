@@ -395,3 +395,110 @@ ESPSection:Toggle({
 	end
   end,
 })
+
+local ItemNames = {
+  	["Lighter"]           = "Lighter",
+	["Flashlight"]        = "Flashlight",
+	["Lockpick"]          = "Lockpicks",
+	["Vitamins"]          = "Vitamins",
+	["Bandage"]           = "Bandage",
+	["StarVial"]          = "Starlight Vial",
+	["StarBottle"]        = "Starlight Bottle",
+	["StarJug"]           = "Starlight Barrel",
+	["Shakelight"]        = "Gummy Flashlight",
+	["Straplight"]        = "Straplight",
+	["Bulklight"]         = "Spotlight",
+	["Battery"]           = "Battery",
+	["Candle"]            = "Candle",
+	["Crucifix"]          = "Crucifix",
+	["CrucifixWall"]      = "Crucifix",
+	["Glowsticks"]        = "Glowstick",
+	["SkeletonKey"]       = "Skeleton Key",
+	["Candy"]             = "Candy",
+	["ShieldMini"]        = "Mini Shield Potion",
+	["ShieldBig"]         = "Big Shield Potion",
+	["BandagePack"]       = "Bandage Pack",
+	["BatteryPack"]       = "Battery Pack",
+	["RiftCandle"]        = "Moonlight Candle",
+	["LaserPointer"]      = "Laser Pointer",
+	["HolyGrenade"]       = "Holy Hand Grenade",
+	["Shears"]            = "Shears",
+	["Smoothie"]          = "Smoothie",
+	["Cheese"]            = "Cheese",
+	["Bread"]             = "Bread",
+	["AlarmClock"]        = "Alarm Clock",
+	["RiftSmoothie"]      = "Moonlight Smoothie",
+	["GweenSoda"]         = "Gween Soda",
+	["GlitchCube"]        = "Glitch Fragment",
+	["Scanner"]           = "Tablet",
+	["Bomb"]              = "Bomb",
+	["Knockbomb"]         = "Knockbomb",
+	["Nanner"]            = "Nanner",
+	["BigBomb"]           = "Big Bomb",
+	["SnakeBox"]          = "Hiding Box",
+	["GoldGun"]           = "Golden Gun",
+	["StopSign"]          = "Stop Sign",
+	["TipJar"]            = "Tip Jar",
+	["Lantern"]           = "Lantern",
+	["IronKey"]           = "Iron Key",
+	["LotusPetal"]        = "Lotus Petal",
+	["Compass"]           = "Compass",
+	["LotusPetalPickup"]  = "Lotus Petal",
+	["LanternLitItem"]    = "Lantern",
+	["KeyIron"]           = "Iron Key",
+	["IronKeyForCrypt"]   = "Iron Key",
+	["LotusHolder"]       = "Lotus Petal",
+	["Multitool"]         = "Multitool",
+	["RiftJar"]           = "Rift Jar",
+	["AloeVera"]          = "Aloe Vera",
+	["Donut"]             = "Donut",
+	["Lotus"]             = "Lotus",
+	["BoxingGloves"]      = "Boxing Gloves",
+}
+
+local ItemDescendantChecker
+ESPSection:Toggle({
+  Flag = "ItemESPToggle",
+  Title = "Item ESP",
+  Value = false,
+  Callback = function(value)
+	if value then
+		for _, Item in ipairs(Rooms:GetDescendants()) do
+			if ItemNames[Item.Name] then
+				if Item:IsA("Model") then
+					ESPLibrary:AddESP({
+					Object = Item,
+					Text = ItemNames[Item.Name],
+					Color = Color3.fromRGB(255, 255, 0),
+					})
+				end
+			end
+		end
+
+		ItemDescendantChecker = Rooms.DescendantAdded:Connect(function(Item)
+			if ItemNames[Item.Name] then
+				if Item:IsA("Model") then
+					ESPLibrary:AddESP({
+					Object = Item,
+					Text = ItemNames[Item.Name],
+					Color = Color3.fromRGB(255, 255, 0),
+					})
+				end
+			end
+		end)
+	else
+		if ItemDescendantChecker then
+			ItemDescendantChecker:Disconnect()
+			ItemDescendantChecker = nil
+		end
+
+		for _, Item in ipairs(Rooms:GetDescendants()) do
+			if ItemNames[Item.Name] then
+				if Item:IsA("Model") then
+					ESPLibrary:RemoveESP(Item)
+				end
+			end
+		end
+	end
+  end,
+})
