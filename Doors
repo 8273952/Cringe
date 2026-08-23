@@ -34,12 +34,6 @@ local Camera = game:GetService("Workspace").CurrentCamera
 local Lighting = game:GetService("Lighting")
 local OldAmbient = Lighting.Ambient
 local MainGame = game.ReplicatedStorage:FindFirstChild("MainGame")
-local TweenService = game:GetService("TweenService")
-local TweenValue = TweenInfo.new(
-	0.3,
-	Enum.EasingStyle.Exponential,
-	Enum.EasingDirection.Out
-)
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local Rooms = game:GetService("Workspace").CurrentRooms
@@ -246,15 +240,12 @@ PlayerSection:Slider({
   },
   Callback = function(value)
     getgenv().FovValue = value
-
-	if MainGame then
-		print("MainGame found")
-		MainGame.fovtarget = getgenv().FovValue
-	end
-	local TweenFov = TweenService:Create(Camera, TweenValue, { FieldOfView = getgenv().FovValue })
-	TweenFov:Play()
   end,
 })
+
+RunService.Renderstepped:Connect(function()
+	Camera.FieldOfView = getgenv().FovValue
+end)
 
 local FBLoop
 PlayerSection:Toggle({
