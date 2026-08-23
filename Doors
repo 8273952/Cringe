@@ -52,12 +52,10 @@ Plr.CharacterAdded:Connect(function(NewCharacter)
     NewChr(NewCharacter)
 end)
 
--- CollisionPart shenanigans --
+-- Collision Stuff --
 
 local Player = game:GetService('Players').LocalPlayer
 local Character = Player.Character
-
-
 
 local Collision = Character:WaitForChild("Collision", 9e9)
 local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart", 9e9)
@@ -67,13 +65,9 @@ CollisionClone.Parent = Character
 CollisionClone.CanCollide = false
 CollisionClone.Massless = true
 
-
-
 if CollisionClone:FindFirstChild("CollisionCrouch") then
 	CollisionClone.CollisionCrouch:Destroy()
 end
-
-
 
 Player.CharacterAdded:Connect(function(NewCharacter)
 task.wait(1)
@@ -92,31 +86,29 @@ end)
 getgenv().SpeedBypass = false
 
 
-
 while task.wait() do
 	if getgenv().SpeedBypass == true and CollisionClone and Player.Character:FindFirstChild("HumanoidRootPart") then
-
-
 
 		if Player.Character.HumanoidRootPart.Anchored and CollisionClone then
 			CollisionClone.Massless = true
 			task.wait(1)
-
-
-
+		
+		
 		elseif not Player.Character.HumanoidRootPart.Anchored and CollisionClone then
 			CollisionClone.Massless = not CollisionClone.Massless
 			task.wait(0.215)
 		end
+	
 
 
+		
 
 	else
 		
 		if CollisionClone then
 			CollisionClone.Massless = true
 		end
-
+		
 
 	end
 
