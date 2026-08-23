@@ -504,3 +504,116 @@ ESPSection:Toggle({
 	end
   end,
 })
+
+local EntityNames = {
+    ["RushMoving"] = "Rush",
+    ["Eyes"] = "Eyes",
+    ["SeekMovingNewClone"] = "Seek",
+    ["AmbushMoving"] = "Ambush",
+    ["FigureRig"] = "Figure",
+    ["GrumbleRig"] = "Grumble",
+    ["Screech"] = "Screech",
+    ["Snare"] = "Snare",
+    ["A60"] = "A60",
+    ["A120"] = "A120",
+    ["BackdoorLookman"] = "Lookman",
+    ["BackdoorRush"] = "Blitz",
+    ["GiggleCeiling"] = "Giggle",
+    ["MouseHole"] = "Louie",
+    ["SallyMoving"] = "Sally",
+    ["Groundskeeper"] = "Groundskeeper",
+    ["GlitchRush"] = "RNIUSHCG==",
+    ["GlitchAmbush"] = "AR0xMBUSH",
+    ["MonumentEntity"] = "Monument",
+    ["JeffTheKiller"] = "Jeff",
+    ["CustomEntity"] = "Custom Entity",
+    ["FrozenAmbush"] = "Frozen Ambush",
+}
+
+local specialEnt = {
+  ["JeffTheKiller"] = "Jeff",
+  ["MonumentEntity"] = "Monument",
+  ["Groundskeeper"] = "Groundskeeper",
+  ["SallyMoving"] = "Sally",
+  ["MouseHole"] = "Louie",
+  ["GiggleCeiling"] = "Giggle",
+  ["Snare"] = "Snare",
+  ["Screech"] = "Screech",
+  ["GrumbleRig"] = "Grumble",
+  ["FigureRig"] = "Figure",
+  ["SeekMovingNewClone"] = "Seek",
+}
+
+local EntDescendantChecker
+ESPSection:Toggle({
+  Flag = "EntityESPToggle",
+  Title = "Entity ESP",
+  Value = false,
+  Callback = function(value)
+    if value then
+		local function highlight(Ent)
+			if specialEnt[Ent.Name] then
+				ESPLibrary:AddESP({
+					Object = Ent,
+					Text = EntityNames[Ent.Name],
+					Color = Color3.fromRGB(255, 0, 0),
+				})
+			else
+				local Hhum = Instance.new("Humanoid")
+				Hhum.Name = "Hhum"
+				Hhum.Parent = Ent
+
+				repeat
+					task.wait()
+				until Entity:FindFirstChildOfClass("Part")
+
+				local Hpart = Entity:FindFirstChildOfClass("Part")
+				Hpart.Transparency = 0.99
+
+				ESPLibrary:AddESP({
+					Object = Hpart,
+					Text = EntityNames[Ent.Name],
+					Color = Color3.fromRGB(255, 0, 0),
+				})
+			end
+		end
+
+		for _, Ent in pairs(game.Workspace:GetDescendants()) do
+              if Ent and EntityNames[Ent.Name] then
+                  highlight(Ent)
+              end
+        end
+
+		EntDescendantChecker = game.Workspace.DescendantAdded:Connect(function(Ent)
+              if Ent and EntityNames[Ent.Name] then
+                  highlight(Ent)
+              end
+        end)
+	else
+		if EntDescendantChecker then
+			EntDescendantChecker:Disconnect()
+			EntDescendantChecker = nil
+		end
+
+		for _, Ent in pairs(game.Workspace:GetDescendants()) do
+              if Ent and EntityNames[Ent.Name] then
+                  if specialEnt[Ent.Name] then
+					 ESPLibrary:RemoveESP(Ent)
+				  end
+			  else
+				 local Hhum = Ent:FindFirstChild("Hhum")
+				 local Hpart = Entity:FindFirstChildOfClass("Part")
+
+				 if Hhum then
+					Hhum:Destroy()
+				 end
+
+				 if Hpart then
+					ESPLibrary:RemoveESP(Ent)
+					Hpart.Transparency = 1
+				 end
+              end
+        end
+	end
+  end,
+})
