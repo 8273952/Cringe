@@ -121,12 +121,12 @@ local CharacterSection = General:Section({
 
 -- sections (Visuals Tab) --
 
-local ESPSection = Visuals:Section({
-    Title = "ESP"
-})
-
 local PlayerSection = Visuals:Section({
     Title = "Player"
+})
+
+local ESPSection = Visuals:Section({
+    Title = "ESP"
 })
 
 -- toggles and stuff (General Tab)
