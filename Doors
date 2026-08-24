@@ -247,27 +247,26 @@ PlayerSection:Slider({
   end,
 })
 
-task.spawn(function()
-	while true do
-		Camera.FieldOfView = getgenv().FovValue
-		task.wait(1/60)
-	end
+RunService.Renderstepped:Connect(function()
+	Camera.FieldOfView = getgenv().FovValue
 end)
 
+local FBLoop
 PlayerSection:Toggle({
-  Flag = "FullbrightToggle",
+  Flag = "FBToggle",
   Title = "Fullbright",
   Value = false,
   Callback = function(value)
-	getgenv().FullBrightToggleValue = value
-	if getgenv().FullBrightToggleValue then
-		task.spawn(function()
-			while getgenv().FullBrightToggleValue do
-				Lighting.Ambient = Color3.fromRGB(255, 255, 255)
-				task.wait(1/60)
-			end
+    if value then
+		FBLoop = RunService.RenderStepped:Connect(function()
+			Lighting.Ambient = Color3.fromRGB(255, 255, 255)
 		end)
 	else
+		if FBLoop then
+			FBLoop:Disconnect()
+			FBLoop = nil
+		end
+
 		Lighting.Ambient = OldAmbient
 	end
   end,
