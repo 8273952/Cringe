@@ -12,7 +12,7 @@ local _version = "1.6.66"
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/8273952/ESPLibrary/refs/heads/main/Library.lua"))()
 
-ESPLibrary:SetTextSize(20)
+ESPLibrary:SetTextSize(11)
 ESPLibrary:SetFillTransparency(0.7)
 ESPLibrary:SetOutlineTransparency(0)
 ESPLibrary:SetTextTransparency(0)
@@ -127,6 +127,10 @@ local PlayerSection = Visuals:Section({
 
 local ESPSection = Visuals:Section({
     Title = "ESP"
+})
+
+local ESPSettingsSection = Visuals:Section({
+    Title = "ESP Settings"
 })
 
 -- toggles and stuff (General Tab)
@@ -615,6 +619,32 @@ ESPSection:Toggle({
 				  end
               end
         end
+	end
+  end,
+})
+
+ESPSettingsSection:Toggle({
+  Flag = "ESPTracersToggle",
+  Title = "ESP tracers",
+  Value = true,
+  Callback = function(value)
+	if value then
+		ESPLibrary:SetTracers(true)
+	else
+		ESPLibrary:SetTracers(false)
+	end
+  end,
+})
+
+ESPSettingsSection:Toggle({
+  Flag = "ESPDistanceToggle",
+  Title = "ESP distance",
+  Value = true,
+  Callback = function(value)
+	if value then
+		ESPLibrary:SetShowDistance(true)
+	else
+		ESPLibrary:SetShowDistance(false)
 	end
   end,
 })
