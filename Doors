@@ -247,7 +247,7 @@ PlayerSection:Slider({
   end,
 })
 
-RunService.Renderstepped:Connect(function()
+RunService.RenderStepped:Connect(function()
 	Camera.FieldOfView = getgenv().FovValue
 end)
 
