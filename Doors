@@ -25,6 +25,8 @@ ESPLibrary:SetTracerSize(0.1)
 ESPLibrary:SetDistanceSizeRatio(1)
 ESPLibrary:SetShowDistance(true)
 ESPLibrary:SetTracers(true)
+ESPLibrary:SetArrows(false)
+ESPLibrary:SetArrowRadius(250)
 
 local Chr
 local Plr = game:GetService("Players").LocalPlayer
@@ -693,6 +695,19 @@ ESPSettingsSection:Toggle({
 })
 
 ESPSettingsSection:Toggle({
+  Flag = "ESPArrowToggle",
+  Title = "ESP arrow",
+  Value = false,
+  Callback = function(value)
+	if value then
+		ESPLibrary:SetArrows(true)
+	else
+		ESPLibrary:SetArrows(false)
+	end
+  end,
+})
+
+ESPSettingsSection:Toggle({
   Flag = "ESPDistanceToggle",
   Title = "ESP distance",
   Value = true,
@@ -701,6 +716,19 @@ ESPSettingsSection:Toggle({
 		ESPLibrary:SetShowDistance(true)
 	else
 		ESPLibrary:SetShowDistance(false)
+	end
+  end,
+})
+
+ESPSettingsSection:Toggle({
+  Flag = "ESPRGBToggle",
+  Title = "ESP RGB mode",
+  Value = false,
+  Callback = function(value)
+	if value then
+		ESPLibrary:SetRainbow(true)
+	else
+		ESPLibrary:SetRainbow(false)
 	end
   end,
 })
