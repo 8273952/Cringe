@@ -230,6 +230,56 @@ CharacterSection:Toggle({
   end,
 })
 
+local EntityNotifNames = {
+    ["RushMoving"] = "Rush",
+    ["Eyes"] = "Eyes",
+    ["SeekMovingNewClone"] = "Seek",
+    ["AmbushMoving"] = "Ambush",
+    ["FigureRig"] = "Figure",
+    ["GrumbleRig"] = "Grumble",
+    ["Screech"] = "Screech",
+    ["Snare"] = "Snare",
+    ["A60"] = "A60",
+    ["A120"] = "A120",
+    ["BackdoorLookman"] = "Lookman",
+    ["BackdoorRush"] = "Blitz",
+    ["GiggleCeiling"] = "Giggle",
+    ["MouseHole"] = "Louie",
+    ["SallyMoving"] = "Sally",
+    ["Groundskeeper"] = "Groundskeeper",
+    ["GlitchRush"] = "RNIUSHCG==",
+    ["GlitchAmbush"] = "AR0xMBUSH",
+    ["MonumentEntity"] = "Monument",
+    ["JeffTheKiller"] = "Jeff",
+    ["CustomEntity"] = "Custom Entity",
+    ["FrozenAmbush"] = "Frozen Ambush",
+}
+
+local EntNotifDescendantChecker
+General:Toggle({
+  Flag = "EntNotifToggle",
+  Title = "Entity Notifier",
+  Value = false,
+  Callback = function(value)
+	if value then
+		EntNotifDescendantChecker = Workspace.DescendantAdded:Connect(function(Ent)
+			if Ent and EntityNotifNames[Ent.Name] then
+				WindUI:Notify({
+				  Title = EntityNotifNames[Ent.Name] .. " has spawned!",
+				  CanClose = true,
+				  Duration = 1.5,
+				})
+			end
+		end)
+	else
+		if EntNotifDescendantChecker then
+			EntNotifDescendantChecker:Disconnect()
+			EntNotifDescendantChecker = nil
+		end
+	end
+  end,
+})
+
 -- Toggles and Stuff (Visuals Tab) --
 
 getgenv().FovValue = 70
