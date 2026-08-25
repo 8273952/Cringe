@@ -307,7 +307,7 @@ ESPSection:Toggle({
         		ESPLibrary:AddESP({
         			Object = hPart,
         			Text = Door.Parent.Name .. "[" .. RoomID .. "]",
-        			Color = Color3.fromRGB(0, 255, 255)
+        			Color = getgenv().DoorESPColour
         		})
         	end
         end
