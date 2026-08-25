@@ -325,10 +325,10 @@ ESPSection:Toggle({
 			end
 		end)
 
-		DoorColourChecker = Options.DoorESPColor:OnChanged(function(Value)
+		DoorColourChecker = Options.DoorESPColorpicker:OnChanged(function(Value)
 			for _, Door in ipairs(Rooms:GetDescendants()) do
 				if Door.Name == "Door" and Door.Parent.Name == "Door" then
-					ESPLibrary:UpdateObjectColor(Door, getgenv().DoorESPColour)
+					ESPLibrary:UpdateObjectColor(Door, Value)
 				end
 			end
 		end)
