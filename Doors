@@ -648,3 +648,51 @@ ESPSettingsSection:Toggle({
 	end
   end,
 })
+
+getgenv().DoorESPColour = Color3.fromRGB(0, 255, 255)
+ESPSettingsSection:Colorpicker({
+  Flag = "DoorESPColorpicker",
+  Title = "Door ESP Colour",
+  Default = Color3.fromRGB(0, 255, 255),
+  Transparency = 0,
+  Locked = false,
+  Callback = function(value)
+	getgenv().DoorESPColour = value
+  end,
+})
+
+ESPSettingsSection:Colorpicker({
+  Flag = "ColorpickerTest",
+  Title = "Colorpicker",
+  Desc = "Colorpicker Description",
+  Default = Color3.fromRGB(0, 255, 0),
+  Transparency = 0,
+  Locked = false,
+  Callback = function(color)
+    print("Background color:", tostring(color))
+  end,
+})
+
+ESPSettingsSection:Colorpicker({
+  Flag = "ColorpickerTest",
+  Title = "Colorpicker",
+  Desc = "Colorpicker Description",
+  Default = Color3.fromRGB(0, 255, 0),
+  Transparency = 0,
+  Locked = false,
+  Callback = function(color)
+    print("Background color:", tostring(color))
+  end,
+})
+
+ESPSettingsSection:Colorpicker({
+  Flag = "ColorpickerTest",
+  Title = "Colorpicker",
+  Desc = "Colorpicker Description",
+  Default = Color3.fromRGB(0, 255, 0),
+  Transparency = 0,
+  Locked = false,
+  Callback = function(color)
+    print("Background color:", tostring(color))
+  end,
+})
