@@ -305,29 +305,31 @@ ESPSection:Toggle({
                 weld.Parent = hPart
         
         		local RoomID = Door.Parent:GetAttribute("RoomID")
-        		ESPLibrary:AddESP({
-        			Object = hPart,
-        			Text = Door.Parent.Name .. "[" .. RoomID .. "]",
-        			Color = getgenv().DoorESPColour
-        		})
+				if hPart then
+	        		ESPLibrary:AddESP({
+	        			Object = hPart,
+	        			Text = Door.Parent.Name .. "[" .. RoomID .. "]",
+	        			Color = getgenv().DoorESPColour
+	        		})
+				end
         	end
         end
 
         for _, Door in ipairs(Rooms:GetDescendants()) do
-			if Door.Name == "Door" and Door.Parent.Name == "Door" then
+			if Door and Door.Parent and Door.Name == "Door" and Door.Parent.Name == "Door" then
 				highlight(Door)
 			end
 		end
 
         DoorDescendantChecker = Rooms.DescendantAdded:Connect(function(Door)
-			if Door.Name == "Door" and Door.Parent.Name == "Door" then
+			if Door and Door.Parent and Door.Name == "Door" and Door.Parent.Name == "Door" then
 				highlight(Door)
 			end
 		end)
 
 		DoorColourChecker = Options.DoorESPColorpicker:OnChanged(function(Value)
 			for _, Door in ipairs(Rooms:GetDescendants()) do
-				if Door.Name == "Door" and Door.Parent.Name == "Door" then
+				if Door and Door.Parent andDoor.Name == "Door" and Door.Parent.Name == "Door" then
 					ESPLibrary:UpdateObjectColor(Door, Value)
 				end
 			end
