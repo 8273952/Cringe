@@ -265,10 +265,13 @@ General:Toggle({
 		EntNotifDescendantChecker = Workspace.DescendantAdded:Connect(function(Ent)
 			if Ent and EntityNotifNames[Ent.Name] then
 				WindUI:Notify({
-				  Title = EntityNotifNames[Ent.Name] .. " has spawned!",
+				  Title = "Idk hub",
+				  Content = EntityNotifNames[Ent.Name] .. " has spawned!",
+				  Background = "rbxassetid://17467150663",
 				  CanClose = true,
 				  Duration = 1.5,
 				})
+				notifsound()
 			end
 		end)
 	else
