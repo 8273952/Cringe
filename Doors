@@ -747,7 +747,7 @@ ESPSettingsSection:Colorpicker({
 })
 
 ESPSettingsSection:Colorpicker({
-  Flag = "ColorpickerTest",
+  Flag = "ColorpickerTest1",
   Title = "Colorpicker",
   Desc = "Colorpicker Description",
   Default = Color3.fromRGB(0, 255, 0),
@@ -759,7 +759,7 @@ ESPSettingsSection:Colorpicker({
 })
 
 ESPSettingsSection:Colorpicker({
-  Flag = "ColorpickerTest",
+  Flag = "ColorpickerTest2",
   Title = "Colorpicker",
   Desc = "Colorpicker Description",
   Default = Color3.fromRGB(0, 255, 0),
@@ -771,7 +771,7 @@ ESPSettingsSection:Colorpicker({
 })
 
 ESPSettingsSection:Colorpicker({
-  Flag = "ColorpickerTest",
+  Flag = "ColorpickerTest3",
   Title = "Colorpicker",
   Desc = "Colorpicker Description",
   Default = Color3.fromRGB(0, 255, 0),
