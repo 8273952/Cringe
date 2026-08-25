@@ -273,6 +273,7 @@ PlayerSection:Toggle({
 })
 
 local DoorDescendantChecker
+local DoorColourChecker
 ESPSection:Toggle({
   Flag = "DoorESPToggle",
   Title = "Door ESP",
@@ -323,10 +324,23 @@ ESPSection:Toggle({
 				highlight(Door)
 			end
 		end)
+
+		DoorColourChecker = Options.DoorESPColor:OnChanged(function(Value)
+			for _, Door in ipairs(Rooms:GetDescendants()) do
+				if Door.Name == "Door" and Door.Parent.Name == "Door" then
+					ESPLibrary:UpdateObjectColor(Door, getgenv().DoorESPColour)
+				end
+			end
+		end)
     else
         if DoorDescendantChecker then
 			DoorDescendantChecker:Disconnect()
 			DoorDescendantChecker = nil
+		end
+
+		if DoorColourChecker then
+			DoorColourChecker:Disconnect()
+			DoorColourChecker = nil
 		end
 
         for _, Door in ipairs(Rooms:GetDescendants()) do
