@@ -8,11 +8,7 @@ local function notifsound()
     sound:Destroy()
 end
 
-local repo = 'https://raw.githubusercontent.com/8273952/LinoriaLib/main/'
-
-local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
-local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
-local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local NeverLose = loadstring(game:HttpGet("https://raw.githubusercontent.com/8273952/I-cant-afford-blahaj/refs/heads/main/source.luau"))()
 local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/8273952/ESPLibrary/refs/heads/main/Library.lua"))()
 
 ESPLibrary:SetTextSize(11)
@@ -38,6 +34,7 @@ local Hrp
 local Camera = game:GetService("Workspace").CurrentCamera
 local Lighting = game:GetService("Lighting")
 local OldAmbient = Lighting.Ambient
+local Ping = Plr:GetNetworkReachabilityPing()
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 
@@ -57,55 +54,49 @@ end)
 
 -- create ui --
 
-local Window = Library:CreateWindow({
-    Title = 'Demonology',
-    Center = true,
-    AutoShow = true,
-    TabPadding = 8,
-    MenuFadeTime = 0.2
-})
+local Notification = NeverLose:CreateNotification();
+local Logging = NeverLose:CreateLogger();
+local Indicator = NeverLose:CreateIndicator();
+local window = NeverLose:CreateWindow({
+	Logo = NeverLose.GlobalLogo,
+	Name = "Nom nom nom",
+	Content = "Demonology",
+	Size = NeverLose.Scales.Auto,
+	ConfigFolder = "NeverLoseConfigs",
+	Enable3DRenderer = false,
+	Keybind = "RightControl"
+});
+
+local Watermark = window:Watermark();
+Watermark:SetRender(true);
+
+local pingBlock = Watermark:AddBlock("chart-four-vertical-bars" , "0MS");
+
+task.spawn(function()
+    while true do
+        Ping = math.round(LocalPlayer:GetNetworkReachabilityPing() * 1000)
+        pingBlock:SetText(tostring(ping) .. "MS")
+        task.wait(1)
+    end
+end)
 
 -- tabs --
 local Tabs = {
-    Main = Window:AddTab('Main'),
-    ['UI Settings'] = Window:AddTab('UI Settings')
+    Main = window:AddTab({
+    	Icon = 'User',
+    	Name = "Main",
+    })
 }
--- GB and TB --
+-- Sections --
+local Sections = {
+    Character = Tabs.Main:AddSection({
+	    Name = "Character",
+        Position = 'left'
+    })
+}
 
-local CharacterGB = Tabs.Main:AddLeftGroupbox('Groupbox')
+-- toggles and stuff --
+local Labels = {
+    Walkspeed = Sections.Character:AddLabel('Walkspeed')
+}
 
--- Toggles and stuff(Main)
-
-getgenv().WalkspeedSliderValue = 2
-CharacterGB:AddSlider('WalkspeedSlider', {
-    Text = 'Walkspeed',
-    Default = 2,
-    Min = 2,
-    Max = 100,
-    Rounding = 0.1,
-    Compact = false,
-})
-
-Options.WalkspeedSlider:OnChanged(function()
-    getgenv().WalkspeedSliderValue = Options.WalkspeedSlider.Value
-end)
-
-local WalkspeedLoop
-CharacterGB:AddToggle('WalkspeedToggle', {
-    Text = 'Enable',
-    Default = false,
-    Tooltip = 'Makes you move faster',
-})
-
-Toggles.WalkspeedToggle:OnChanged(function()
-    if Toggles.WalkspeedToggle.Value then
-        WalkspeedLoop = RunService.RenderStepped:Connect(function()
-            Hum.WalkSpeed = getgenv().WalkspeedSliderValue
-        end)
-    else
-        if WalkspeedLoop then
-            WalkspeedLoop:Disconnect()
-            WalkspeedLoop = nil
-        end
-    end
-end)
