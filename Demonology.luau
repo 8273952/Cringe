@@ -83,8 +83,40 @@ local Sections = {
     })
 }
 
--- toggles and stuff --
+-- toggles and stuff(Main) --
 local Labels = {
     Walkspeed = Sections.Character:AddLabel('Walkspeed')
 }
+
+local WalkspeedLoop
+getgenv().WalkspeedSliderValue = 35
+Labels.Walkspeed:AddSlider({
+	Min = 2,
+	Max = 100,
+	Rounding = 0.1,
+	Default = 35,
+	Type = "Lv",
+	Size = 100,
+	Callback = function(value)
+		getgenv().WalkspeedSliderValue = value
+	end,
+	Flag = "WalkspeedSlider",
+})
+
+Labels.Walkspeed:AddToggle({
+	Default = false,
+	Callback = function(value)
+		if value then
+			WalkspeedLoop = RunService.RenderStepped:Connect(function()
+				Hum.WalkSpeed = getgenv().WalkspeedSliderValue
+			end)
+		else
+			if WalkspeedLoop then
+				WalkspeedLoop:Disconnect()
+				WalkspeedLoop = nil
+			end
+		end
+	end,
+	Flag = "WalkspeedToggle",
+})
 
