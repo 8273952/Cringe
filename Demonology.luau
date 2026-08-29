@@ -66,10 +66,10 @@ local Window = Library:CreateWindow({
 })
 
 -- tabs --
-
-Main = Window:AddTab('Main'),
-['UI Settings'] = Window:AddTab('UI Settings'),
-
+local Tabs = {
+    Main = Window:AddTab('Main'),
+    ['UI Settings'] = Window:AddTab('UI Settings')
+}
 -- GB and TB --
 
 local CharacterGB = Tabs.Main:AddLeftGroupbox('Groupbox')
@@ -77,20 +77,17 @@ local CharacterGB = Tabs.Main:AddLeftGroupbox('Groupbox')
 -- Toggles and stuff(Main)
 
 getgenv().WalkspeedSliderValue = 2
-LeftGroupBox:AddSlider('WalkspeedSlider', {
+CharacterGB:AddSlider('WalkspeedSlider', {
     Text = 'Walkspeed',
     Default = 2,
     Min = 2,
     Max = 100,
     Rounding = 0.1,
     Compact = false,
-
-    Callback = function(Value)
-    end
 })
 
 Options.WalkspeedSlider:OnChanged(function()
-    getgenv().WalkspeedSliderValue = Options.MySlider.Value
+    getgenv().WalkspeedSliderValue = Options.WalkspeedSlider.Value
 end)
 
 local WalkspeedLoop
@@ -98,9 +95,6 @@ CharacterGB:AddToggle('WalkspeedToggle', {
     Text = 'Enable',
     Default = false,
     Tooltip = 'Makes you move faster',
-
-    Callback = function(Value)
-    end
 })
 
 Toggles.WalkspeedToggle:OnChanged(function()
