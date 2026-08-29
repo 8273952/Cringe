@@ -74,7 +74,7 @@ local pingBlock = Watermark:AddBlock("chart-four-vertical-bars" , "0MS");
 
 task.spawn(function()
     while true do
-        Ping = math.round(LocalPlayer:GetNetworkReachabilityPing() * 1000)
+        Ping = math.round(Plr:GetNetworkReachabilityPing() * 1000)
         pingBlock:SetText(tostring(ping) .. "MS")
         task.wait(1)
     end
@@ -83,7 +83,7 @@ end)
 -- tabs --
 local Tabs = {
     Main = window:AddTab({
-    	Icon = 'User',
+    	Icon = 'person',
     	Name = "Main",
     })
 }
