@@ -75,7 +75,7 @@ local pingBlock = Watermark:AddBlock("chart-four-vertical-bars" , "0MS");
 task.spawn(function()
     while true do
         Ping = math.round(Plr:GetNetworkReachabilityPing() * 1000)
-        pingBlock:SetText(tostring(ping) .. "MS")
+        pingBlock:SetText(tostring(Ping) .. "MS")
         task.wait(1)
     end
 end)
