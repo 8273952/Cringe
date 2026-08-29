@@ -34,7 +34,6 @@ local Hrp
 local Camera = game:GetService("Workspace").CurrentCamera
 local Lighting = game:GetService("Lighting")
 local OldAmbient = Lighting.Ambient
-local Ping = Plr:GetNetworkReachabilityPing()
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 
@@ -68,17 +67,6 @@ local window = NeverLose:CreateWindow({
 });
 
 local Watermark = window:Watermark();
-Watermark:SetRender(true);
-
-local pingBlock = Watermark:AddBlock("chart-four-vertical-bars" , "0MS");
-
-task.spawn(function()
-    while true do
-        Ping = math.round(Plr:GetNetworkReachabilityPing() * 1000)
-        pingBlock:SetText(tostring(Ping) .. "MS")
-        task.wait(1)
-    end
-end)
 
 -- tabs --
 local Tabs = {
