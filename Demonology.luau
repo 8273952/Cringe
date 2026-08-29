@@ -90,12 +90,12 @@ local Labels = {
 
 local WalkspeedLoop
 getgenv().WalkspeedSliderValue = 35
-Labels.Walkspeed:AddSlider({
+Character:AddSlider({
 	Min = 2,
 	Max = 100,
-	Rounding = 0.1,
+	Rounding = 1,
 	Default = 35,
-	Type = "Lv",
+	Type = "",
 	Size = 100,
 	Callback = function(value)
 		getgenv().WalkspeedSliderValue = value
