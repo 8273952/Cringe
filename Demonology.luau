@@ -193,7 +193,7 @@ Labels.AntiGhostHunt:AddToggle({
 		if value then
 			GhostHuntChecker = Ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
 				if Ghost:GetAttribute("Hunting") == true then
-					Hrp.CFrame = Truck.CFrame + CFrame.new(0, 3, 0)
+					Hrp.CFrame = Truck.CFrame + Vector3.new(0, 3, 0)
 
 					Notification.new({
 						Title = "Idk hub",
