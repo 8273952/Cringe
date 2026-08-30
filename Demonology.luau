@@ -80,6 +80,10 @@ local Tabs = {
     Main = window:AddTab({
     	Icon = 'person',
     	Name = "Main",
+    }),
+	Visuals = window:AddTab({
+    	Icon = 'eye',
+    	Name = "Visuals",
     })
 }
 -- Sections --
@@ -94,8 +98,9 @@ local Sections = {
 -- toggles and stuff(Main) --
 local Labels = {
 	-- Character section (Main tab) --
-	WalkspeedValue = Sections.Character:AddLabel('')
-    Walkspeed = Sections.Character:AddLabel('Walkspeed')
+	WalkspeedValue = Sections.Character:AddLabel(''),
+    Walkspeed = Sections.Character:AddLabel('Walkspeed'),
+	Noclip = Sections.Character:AddLabel('Noclip')
 }
 
 local WalkspeedLoop
@@ -106,7 +111,7 @@ Labels.WalkspeedValue:AddSlider({
 	Rounding = 1,
 	Default = 35,
 	Type = "",
-	Size = 200,
+	Size = 180,
 	Callback = function(value)
 		getgenv().WalkspeedSliderValue = value
 	end,
@@ -132,3 +137,34 @@ Labels.Walkspeed:AddToggle({
 	Flag = "WalkspeedToggle",
 })
 
+local NoclipLoop
+Labels.Noclip:AddToggle({
+	Default = false,
+	Callback = function(value)
+		if value then
+			NoclipLoop = RunService.RenderStepped:Connect(function()
+				for _, part in ipairs(Chr:GetDescendants()) do
+					if part and part:IsA("BasePart") then
+						if part and part.CanCollide == true then
+							part.CanCollide = false
+						end
+					end
+				end
+			end)
+		else
+			if NoclipLoop then
+				NoclipLoop:Disconnect()
+				NoclipLoop = nil
+			end
+
+			for _, part in ipairs(Chr:GetDescendants()) do
+				if part and part:IsA("BasePart") then
+					if part and part.CanCollide == false then
+						part.CanCollide = true
+					end
+				end
+			end
+		end
+	end,
+	Flag = "NoclipToggle",
+})
