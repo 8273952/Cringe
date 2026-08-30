@@ -11,6 +11,10 @@ end
 local NeverLose = loadstring(game:HttpGet("https://raw.githubusercontent.com/8273952/I-cant-afford-blahaj/refs/heads/main/source.luau"))()
 local ESPLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/8273952/ESPLibrary/refs/heads/main/Library.lua"))()
 
+local Notification = NeverLose:CreateNotification();
+local Logging = NeverLose:CreateLogger();
+local Indicator = NeverLose:CreateIndicator();
+
 ESPLibrary:SetTextSize(11)
 ESPLibrary:SetFillTransparency(0.7)
 ESPLibrary:SetOutlineTransparency(0)
@@ -36,6 +40,8 @@ local Lighting = game:GetService("Lighting")
 local OldAmbient = Lighting.Ambient
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
+local Ghost = Workspace.Ghost
+local Truck = Workspace.Map.Rooms["Base Camp"].Truck.Primary
 
 local function NewChr(NewChr)
     Chr = NewChr
@@ -53,9 +59,6 @@ end)
 
 -- create ui --
 
-local Notification = NeverLose:CreateNotification();
-local Logging = NeverLose:CreateLogger();
-local Indicator = NeverLose:CreateIndicator();
 local window = NeverLose:CreateWindow({
 	Logo = NeverLose.GlobalLogo,
 	Name = "Idk hub",
@@ -76,31 +79,45 @@ UIToggle:Input(function()
 end)
 
 -- tabs --
+
 local Tabs = {
     Main = window:AddTab({
     	Icon = 'person',
     	Name = "Main",
     }),
+
 	Visuals = window:AddTab({
     	Icon = 'eye',
     	Name = "Visuals",
     })
 }
+
 -- Sections --
+
 local Sections = {
-	-- Main tab --
     Character = Tabs.Main:AddSection({
 	    Name = "Character",
+        Position = 'left'
+    }),
+
+    Game = Tabs.Main:AddSection({
+	    Name = "Game",
+        Position = 'right'
+    }),
+
+	Player = Tabs.Visuals:AddSection({
+	    Name = "Player",
         Position = 'left'
     })
 }
 
--- toggles and stuff(Main) --
+-- toggles and stuff(Main tab) --
+
 local Labels = {
-	-- Character section (Main tab) --
 	WalkspeedValue = Sections.Character:AddLabel(''),
     Walkspeed = Sections.Character:AddLabel('Walkspeed'),
-	Noclip = Sections.Character:AddLabel('Noclip')
+	Noclip = Sections.Character:AddLabel('Noclip'),
+	AntiGhostHunt = Sections.Game:AddLabel('Anti Chost Hunt')
 }
 
 local WalkspeedLoop
@@ -167,4 +184,28 @@ Labels.Noclip:AddToggle({
 		end
 	end,
 	Flag = "NoclipToggle",
+})
+
+local GhostHuntChecker
+Labels.AntiGhostHunt:AddToggle({
+	Default = false,
+	Callback = function(value)
+		if value then
+			GhostHuntChecker = Ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
+				if Ghost:GetAttribute("Hunting") == true then
+					Hrp.CFrame = Truck.CFrame + CFrame.new(0, 3, 0)
+
+					Notification.new({
+						Title = "Idk hub",
+						Content = "Ghost hunt started",
+						Duration = 1.5,  -- seconds
+					})
+					notifsound()
+				end
+			end)
+		else
+
+		end
+	end,
+	Flag = "AntiGhostHuntToggle",
 })
