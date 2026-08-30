@@ -94,7 +94,7 @@ local Sections = {
 -- toggles and stuff(Main) --
 local Labels = {
 	-- Character section (Main tab) --
-	WalkspeedValue = Sections.Character:AddLabel('')
+	WalkspeedValue = Sections.Character:AddLabel(' ')
     Walkspeed = Sections.Character:AddLabel('Walkspeed')
 }
 
