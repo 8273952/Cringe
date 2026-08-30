@@ -111,14 +111,18 @@ local Sections = {
     })
 }
 
--- toggles and stuff(Main tab) --
+-- Labels --
 
 local Labels = {
 	WalkspeedValue = Sections.Character:AddLabel(''),
     Walkspeed = Sections.Character:AddLabel('Walkspeed'),
 	Noclip = Sections.Character:AddLabel('Noclip'),
-	AntiGhostHunt = Sections.Game:AddLabel('Anti Chost Hunt')
+	AntiGhostHunt = Sections.Game:AddLabel('Anti Chost Hunt'),
+	Ambient = Sections.Player:AddLabel('Ambient'),
+	FOV = Sections.Player:AddLabel('FOV')
 }
+
+-- toggles and stuff(Main tab) --
 
 local WalkspeedLoop
 getgenv().WalkspeedSliderValue = 35
@@ -193,12 +197,12 @@ Labels.AntiGhostHunt:AddToggle({
 		if value then
 			GhostHuntChecker = Ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
 				if Ghost:GetAttribute("Hunting") == true then
-					Hrp.CFrame = Truck.CFrame + Vector3.new(0, 3, 0)
+					Hrp.CFrame = Truck.CFrame + Vector3.new(0, 10, 0)
 
 					Notification.new({
 						Title = "Idk hub",
-						Content = "Ghost hunt started",
-						Duration = 1.5,  -- seconds
+						Content = "Successfully escaped ghost hunt.",
+						Duration = 1.5,
 					})
 					notifsound()
 				end
@@ -209,3 +213,52 @@ Labels.AntiGhostHunt:AddToggle({
 	end,
 	Flag = "AntiGhostHuntToggle",
 })
+
+-- Toggles and stuff (Visuals tab) --
+
+local AmbientLoop
+getgenv().AmbientColour = Color3.fromRGB(255, 255, 255)
+Labels.Ambient:AddColorPicker({
+	Default = Color3.fromRGB(255, 255, 255),
+	Callback = function(value)
+		getgenv().AmbientColour = value
+	end,
+	Flag = "AmbientColour",
+})
+
+Labels.Ambient:AddToggle({
+	Default = false,
+	Callback = function(value)
+		if value then
+			AmbientLoop = RunService.RenderStepped:Connect(function()
+				Lighting.Ambient = getgenv().AmbientColour
+			end)
+		else
+			if AmbientLoop then
+				AmbientLoop:Disconnect()
+				AmbientLoop = nil
+			end
+
+			Lighting.Ambient = OldAmbient
+		end
+	end,
+	Flag = "AmbientToggle",
+})
+
+getgenv().FOVValue = 100
+Labels.FOV:AddSlider({
+	Min = 20,
+	Max = 120,
+	Rounding = 1,
+	Default = 100,
+	Type = "",
+	Size = 100,
+	Callback = function(value)
+		getgenv().FOVValue = value
+	end,
+	Flag = "FOVSlider",
+})
+
+RunService.RenderStepped:Connect(function()
+	Camera.FieldOfView = getgenv().FOVValue
+end)
