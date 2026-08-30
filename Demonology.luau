@@ -58,7 +58,7 @@ local Logging = NeverLose:CreateLogger();
 local Indicator = NeverLose:CreateIndicator();
 local window = NeverLose:CreateWindow({
 	Logo = NeverLose.GlobalLogo,
-	Name = "Nom nom nom",
+	Name = "Idk hub",
 	Content = "Demonology",
 	Size = NeverLose.Scales.Auto,
 	ConfigFolder = "NeverLoseConfigs",
@@ -69,7 +69,7 @@ local window = NeverLose:CreateWindow({
 -- watermarks --
 
 local Watermark = window:Watermark();
-local UIToggle = Watermark:AddBlock("circle-x", "Toggle UI");
+local UIToggle = Watermark:AddBlock("circle-x", "Idk hub");
 
 UIToggle:Input(function()
 	window:ToggleInterface()
@@ -94,18 +94,19 @@ local Sections = {
 -- toggles and stuff(Main) --
 local Labels = {
 	-- Character section (Main tab) --
+	WalkspeedValue = Sections.Character:AddLabel('')
     Walkspeed = Sections.Character:AddLabel('Walkspeed')
 }
 
 local WalkspeedLoop
 getgenv().WalkspeedSliderValue = 35
-Labels.Walkspeed:AddSlider({
+Labels.WalkspeedValue:AddSlider({
 	Min = 2,
 	Max = 100,
 	Rounding = 1,
 	Default = 35,
 	Type = "",
-	Size = 50,
+	Size = 100,
 	Callback = function(value)
 		getgenv().WalkspeedSliderValue = value
 	end,
@@ -124,6 +125,8 @@ Labels.Walkspeed:AddToggle({
 				WalkspeedLoop:Disconnect()
 				WalkspeedLoop = nil
 			end
+
+			Hum.WalkSpeed = 15
 		end
 	end,
 	Flag = "WalkspeedToggle",
