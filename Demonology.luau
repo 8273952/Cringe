@@ -94,7 +94,7 @@ local Sections = {
 -- toggles and stuff(Main) --
 local Labels = {
 	-- Character section (Main tab) --
-	WalkspeedValue = Sections.Character:AddLabel(' '),
+	WalkspeedValue = Sections.Character:AddLabel('')
     Walkspeed = Sections.Character:AddLabel('Walkspeed')
 }
 
@@ -106,7 +106,7 @@ Labels.WalkspeedValue:AddSlider({
 	Rounding = 1,
 	Default = 35,
 	Type = "",
-	Size = 100,
+	Size = 200,
 	Callback = function(value)
 		getgenv().WalkspeedSliderValue = value
 	end,
