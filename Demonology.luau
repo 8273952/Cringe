@@ -84,6 +84,7 @@ local Tabs = {
 }
 -- Sections --
 local Sections = {
+	-- Main tab --
     Character = Tabs.Main:AddSection({
 	    Name = "Character",
         Position = 'left'
@@ -92,6 +93,7 @@ local Sections = {
 
 -- toggles and stuff(Main) --
 local Labels = {
+	-- Character section (Main tab) --
     Walkspeed = Sections.Character:AddLabel('Walkspeed')
 }
 
