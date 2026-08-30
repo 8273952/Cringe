@@ -66,7 +66,14 @@ local window = NeverLose:CreateWindow({
 	Keybind = "RightControl"
 });
 
+-- watermarks --
+
 local Watermark = window:Watermark();
+local UIToggle = Watermark:AddBlock("circle-x", "Toggle UI");
+
+UIToggle:Input(function()
+	window:ToggleInterface()
+end)
 
 -- tabs --
 local Tabs = {
