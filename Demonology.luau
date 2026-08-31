@@ -145,9 +145,11 @@ Labels.Walkspeed:AddToggle({
 	Default = false,
 	Callback = function(value)
 		if value then
-			WalkspeedLoop = RunService.RenderStepped:Connect(function()
-				Hum.WalkSpeed = getgenv().WalkspeedSliderValue
-			end)
+			if not WalkspeedLoop then
+				WalkspeedLoop = RunService.RenderStepped:Connect(function()
+					Hum.WalkSpeed = getgenv().WalkspeedSliderValue
+				end)
+			end
 		else
 			if WalkspeedLoop then
 				WalkspeedLoop:Disconnect()
@@ -165,15 +167,17 @@ Labels.Noclip:AddToggle({
 	Default = false,
 	Callback = function(value)
 		if value then
-			NoclipLoop = RunService.RenderStepped:Connect(function()
-				for _, part in ipairs(Chr:GetDescendants()) do
-					if part and part:IsA("BasePart") then
-						if part and part.CanCollide == true then
-							part.CanCollide = false
+			if not NoclipLoop then
+				NoclipLoop = RunService.RenderStepped:Connect(function()
+					for _, part in ipairs(Chr:GetDescendants()) do
+						if part and part:IsA("BasePart") then
+							if part and part.CanCollide == true then
+								part.CanCollide = false
+							end
 						end
 					end
-				end
-			end)
+				end)
+			end
 		else
 			if NoclipLoop then
 				NoclipLoop:Disconnect()
@@ -197,20 +201,25 @@ Labels.AntiGhostHunt:AddToggle({
 	Default = false,
 	Callback = function(value)
 		if value then
-			GhostHuntChecker = Ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
-				if Ghost:GetAttribute("Hunting") == true then
-					Hrp.CFrame = Truck.CFrame + Vector3.new(0, 10, 0)
-
-					Notification.new({
-						Title = "Idk hub",
-						Content = "Successfully escaped ghost hunt.",
-						Duration = 2,
-					})
-					notifsound()
-				end
-			end)
+			if not GhostHuntChecker then
+				GhostHuntChecker = Ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
+					if Ghost:GetAttribute("Hunting") == true then
+						Hrp.CFrame = Truck.CFrame + Vector3.new(0, 10, 0)
+	
+						Notification.new({
+							Title = "Idk hub",
+							Content = "Successfully escaped ghost hunt.",
+							Duration = 2,
+						})
+						notifsound()
+					end
+				end)
+			end
 		else
-
+			if GhostHuntChecker then
+				GhostHuntChecker:Disconnect()
+				GhostHuntChecker = nil
+			end
 		end
 	end,
 	Flag = "AntiGhostHuntToggle",
@@ -221,23 +230,25 @@ Labels.GhostHuntNotifier:AddToggle({
 	Default = false,
 	Callback = function(value)
 		if value then
-			GhostHuntChecker1 = Ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
-				if Ghost:GetAttribute("Hunting") == true then
-					Notification.new({
-						Title = "Idk hub",
-						Content = "Ghost hunt started",
-						Duration = 2,
-					})
-					notifsound()
-				else
-					Notification.new({
-						Title = "Idk hub",
-						Content = "Ghost hunt ended",
-						Duration = 2,
-					})
-					notifsound()
-				end
-			end)
+			if not GhostHuntChecker1 then
+				GhostHuntChecker1 = Ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
+					if Ghost:GetAttribute("Hunting") == true then
+						Notification.new({
+							Title = "Idk hub",
+							Content = "Ghost hunt started",
+							Duration = 2,
+						})
+						notifsound()
+					else
+						Notification.new({
+							Title = "Idk hub",
+							Content = "Ghost hunt ended",
+							Duration = 2,
+						})
+						notifsound()
+					end
+				end)
+			end
 		else
 			if GhostHuntChecker1 then
 				GhostHuntChecker1:Disconnect()
@@ -264,9 +275,11 @@ Labels.Ambient:AddToggle({
 	Default = false,
 	Callback = function(value)
 		if value then
-			AmbientLoop = RunService.RenderStepped:Connect(function()
-				Lighting.Ambient = getgenv().AmbientColour
-			end)
+			if not AmbientLoop then
+				AmbientLoop = RunService.RenderStepped:Connect(function()
+					Lighting.Ambient = getgenv().AmbientColour
+				end)
+			end
 		else
 			if AmbientLoop then
 				AmbientLoop:Disconnect()
