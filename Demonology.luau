@@ -118,6 +118,8 @@ local Labels = {
     Walkspeed = Sections.Character:AddLabel('Walkspeed'),
 	Noclip = Sections.Character:AddLabel('Noclip'),
 	AntiGhostHunt = Sections.Game:AddLabel('Anti Chost Hunt'),
+	GhostHuntNotifier = Sections.Game:AddLabel('Ghost Hunt Notifier'),
+
 	Ambient = Sections.Player:AddLabel('Ambient'),
 	FOV = Sections.Player:AddLabel('FOV')
 }
@@ -202,7 +204,7 @@ Labels.AntiGhostHunt:AddToggle({
 					Notification.new({
 						Title = "Idk hub",
 						Content = "Successfully escaped ghost hunt.",
-						Duration = 1.5,
+						Duration = 2,
 					})
 					notifsound()
 				end
@@ -212,6 +214,38 @@ Labels.AntiGhostHunt:AddToggle({
 		end
 	end,
 	Flag = "AntiGhostHuntToggle",
+})
+
+local GhostHuntChecker1
+Labels.GhostHuntNotifier:AddToggle({
+	Default = false,
+	Callback = function(value)
+		if value then
+			GhostHuntChecker1 = Ghost:GetAttributeChangedSignal("Hunting"):Connect(function()
+				if Ghost:GetAttribute("Hunting") == true then
+					Notification.new({
+						Title = "Idk hub",
+						Content = "Ghost hunt started",
+						Duration = 2,
+					})
+					notifsound()
+				else
+					Notification.new({
+						Title = "Idk hub",
+						Content = "Ghost hunt ended",
+						Duration = 2,
+					})
+					notifsound()
+				end
+			end)
+		else
+			if GhostHuntChecker1 then
+				GhostHuntChecker1:Disconnect()
+				GhostHuntChecker1 = nil
+			end
+		end
+	end,
+	Flag = "GhostHuntNotif",
 })
 
 -- Toggles and stuff (Visuals tab) --
